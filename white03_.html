@@ -1,0 +1,382 @@
+<html lang="en" class="antialiased"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Market Sense | Connor Pu</title>
+
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;family=Space+Grotesk:wght@300;400;500&amp;display=swap" rel="stylesheet">
+
+    <style>
+        /* Core Settings */
+        :root {
+            --cursor-size: 20px;
+            --cursor-hover-size: 60px;
+            --accent: #FF4D00;
+            --bg-color: #F9F9FB;
+            --text-primary: #111111;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        /* Typography Override */
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .font-mono-display {
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background-color: var(--text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s,
+                mix-blend-mode 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        body.hovering .cursor-dot {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+            background-color: #fff;
+            mix-blend-mode: difference;
+        }
+
+        /* Magnetic Effect */
+        .magnetic-wrap {
+            display: inline-block;
+            position: relative;
+        }
+
+        .magnetic-content {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        /* Animations */
+        .animate-title-reveal {
+            will-change: transform;
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-8 md:px-16 flex justify-end items-center mix-blend-multiply pointer-events-none">
+        <div class="flex flex-wrap justify-end gap-6 md:gap-10 text-[11px] md:text-xs font-semibold tracking-widest text-neutral-400 pointer-events-auto font-mono-display">
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block hover:text-black transition-colors duration-300">WHO AM I</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block hover:text-black transition-colors duration-300">AI APPS &amp; FILMS</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-[#FF4D00] font-bold">AI INVESTMENT INSIGHT</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block hover:text-black transition-colors duration-300">MY AI MANIFESTO</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="md:pt-40 md:px-16 flex-grow w-full max-w-[1600px] mr-auto ml-auto pt-32 pr-6 pb-20 pl-6 relative">
+
+        <!-- Header Meta -->
+        <div class="mb-8 overflow-hidden">
+            <div class="flex gap-3 reveal-slide-up gap-x-3 gap-y-3 items-center">
+                <div class="w-2 h-2 rounded-full bg-[#FF4D00]"></div>
+                <p class="uppercase text-xs font-medium text-neutral-500 tracking-[0.2em] font-mono-display">Connor Pu • Analysis • 2025.10</p>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="font-display text-[9vw] md:text-[5.5rem] leading-[0.9] tracking-tight text-black mb-16">
+            <div class="overflow-hidden">
+                <span class="block transform animate-title-reveal translate-y-full">AS TEEN,</span>
+            </div>
+            <div class="overflow-hidden">
+                <span class="block transform translate-y-full animate-title-reveal" style="animation-delay: 0.1s;">HOW I GAIN</span>
+            </div>
+            <div class="overflow-hidden">
+                <span class="block transform translate-y-full animate-title-reveal" style="animation-delay: 0.2s;">AI MARKET SENSE?</span>
+            </div>
+        </h1>
+
+        <!-- Divider -->
+        <div class="w-full h-px bg-neutral-200 mb-16 scale-x-0 animate-line-reveal origin-left"></div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 opacity-0 animate-fade-in delay-500">
+
+            <!-- Left Spacer / TOC -->
+            <div class="hidden md:block md:col-span-3 sticky top-32 self-start">
+                <div class="text-[10px] font-semibold text-neutral-400 tracking-widest uppercase mb-6 font-mono-display">Structure</div>
+                <ul class="space-y-3 text-xs md:text-sm text-neutral-500 font-light tracking-wide">
+                    <li class="hover:text-black transition-colors cursor-pointer">01. The Early Landscape</li>
+                    <li class="hover:text-black transition-colors cursor-pointer">02. Infrastructure Pivot</li>
+                    <li class="hover:text-black transition-colors cursor-pointer">03. Strategic Balance</li>
+                    <li class="hover:text-black transition-colors cursor-pointer">04. Macro Risks</li>
+                </ul>
+            </div>
+
+            <!-- Content Column -->
+            <div class="md:col-span-8 max-w-4xl">
+
+                <!-- Article Body -->
+                <div class="space-y-10 text-lg md:text-[1.15rem] leading-[1.7] text-neutral-800 font-light">
+                    
+                    <!-- Intro -->
+                    <p class="first-letter:text-5xl first-letter:font-display first-letter:mr-2 first-letter:float-left first-letter:mt-1">
+                        I genuinely feel that I have gained immense value through self-directed learning and direct exposure to society and the markets. The market speaks for itself; it educates you on how to conduct yourself. This isn't a complaint, but rather an acknowledgment of the authentic education one receives from real-world interactions and market dynamics.
+                    </p>
+
+                    <!-- Section 1 -->
+                    <div class="group">
+                        <h3 class="text-xl font-medium text-black mb-4 tracking-tight">The Early Landscape</h3>
+                        <p class="mb-6">
+                            Take July and August, for instance. After conducting independent research into the upstream and downstream AI supply chains and product directions, the landscape looked like this: starting from the first half of 2025, we saw a barrage of releases every month—GPT-5, Veo 3, Genie 3, Claude 4.5, Meta’s astronomical compensation packages, Grok 4, FSD, and more. Big tech applications were blooming across diverse professional fields: coding, autonomous driving, image and video generation, music and dialogue synthesis, DNA/pharmaceutical prediction, meteorological forecasting, artifact restoration, and World Models.
+                        </p>
+                        <p>
+                            Yet, simultaneously, the decelerated development of models like GPT-5 triggered market skepticism regarding the validity of Scaling Laws (or Huang's Law). Doubts emerged about whether the 2018-era Transformer architecture could continue to boost intelligence while lowering costs, challenging the market's 2024 optimism regarding AGI and AI Agents.
+                        </p>
+                        <p>
+                            Forecasting from that vantage point in August, all I could foresee was a massive demand for future energy infrastructure, that new algorithms and model architectures—along with multimodality—would drive innovation trends, and that vertical markets would be the trajectory for AI apps. However, clouded by a deluge of contradictory information that led to hesitation in judgment and logic, the future market trend remained, for me, a vast, white unknown.
+                        </p>
+                    </div>
+
+                    <!-- Section 2 -->
+                    <div class="group">
+                        <h3 class="text-xl font-medium text-black mb-4 tracking-tight">The Pivot to Infrastructure</h3>
+                        <p class="mb-6">
+                            Opportunity favors the prepared, and the market began to speak. In mid-September, starting with the $4 billion compute deal between Oracle and OpenAI, the entire US stock market shifted its investment focus. Capital moved away from the established monopolies in AI chip design, foundry manufacturing, and applications—Nvidia, TSMC, Tesla—and pivoted toward small-to-medium-sized energy generation and computing infrastructure. Even startups that had just pivoted from Bitcoin mining to GPU compute center leasing saw their stock prices soar.
+                        </p>
+                        <p>
+                            The underlying logic was that major players in AI model training and applications recognized the future exponential rise in demand for compute and electricity, contrasted against the sluggish supply of the dilapidated US domestic power grid. They concluded that until the long-term deployment of SMR (Small Modular Reactor) nuclear power—which takes over five years—is complete, various sectors within compute energy will face a supply shortage. Consequently, big tech firms accelerated investments and transactions to lock in short-term orders and resources. This dragged the entire AI foundational layer—energy, data centers, civil engineering, and cooling industries—into a surge, establishing a trend.
+                        </p>
+                    </div>
+
+                    <!-- Section 3 -->
+                    <div class="group">
+                        <h3 class="text-xl font-medium text-black mb-4 tracking-tight">Market Maneuvers and Strategic Balance</h3>
+                        <p class="mb-6">
+                            Attempts to forecast the market at that specific moment, post-mid-September, seemingly hit another wall of unpredictability. Infrastructure was the macro trend, but because the energy and infrastructure sectors lack long-term barriers to entry (moats), companies currently enjoying a supply deficit will see their profits rapidly erode amidst competition once the five-year nuclear deployment phase concludes. They will face an ultimatum: pivot, be acquired, or go bankrupt. The only actionable strategy was to ride the infrastructure and energy trend before the inevitable correction.
+                        </p>
+                        <p class="mb-6">
+                            Then, the market spoke again, offering another lesson. By late September, cash-rich entities like OpenAI and Nvidia began heavily investing across the entire AI value chain—chips, model/application development, and energy infrastructure—often pouring money into companies that were technically their competitors. Intel and AMD, originally viewed as underdogs in a disadvantageous position, skyrocketed.
+                        </p>
+                        <p>
+                            The underlying logic here is that OpenAI and Nvidia, having amassed significant cash flows, began to fortify their upstream and downstream channels. They expanded their investments—playing a role similar to Britain’s historic strategy as an "offshore balancer" in Europe, investing to maintain equilibrium—strengthening collaborative ties with major enterprises at every link of the chain while simultaneously propping up weaker players to achieve a balanced development. This is the kind of cross-industry geopolitical maneuvering (what one might call "vertical and horizontal alliances") that companies typically engage in to solidify their moats as they accumulate substantial dominance.
+                        </p>
+                    </div>
+
+                    <!-- Section 4 -->
+                    <div class="group">
+                        <h3 class="text-xl font-medium text-black mb-4 tracking-tight">Skepticism, Geopolitics, and Macro Risks</h3>
+                        <p class="mb-6">
+                            From a hindsight perspective, this was foreseeable. However, entering early October, market participants were still skeptical, questioning whether chip designers like Nvidia, model developers like OpenAI, and compute leasing/energy firms like Oracle/Coreweave were merely engaging in triangular investment—essentially "stepping on their own left foot with their right" to create artificial lift. Just as major Wall Street funds began issuing bubble warnings, drawing comparisons to past crises, a new variable emerged: the reignition of trade war rhetoric.
+                        </p>
+                        <p class="mb-6">
+                            The US government had already invested in lithium mines weeks prior. With the threat of a trade war rekindled, the rare earth sector—a distinct American vulnerability where China holds leverage—is bound to see future development. However, one must also consider that these trade countermeasures are primarily posturing to accumulate bargaining chips for the November 11th APEC summit. While unsustainable, these flare-ups will occur periodically, though they are unlikely to fundamentally alter the developmental structure of the AI supply chain.
+                        </p>
+                        <p>
+                            Yet, this does not guarantee immunity from a massive correction or an unconventional bursting of the bubble. We are navigating a landscape defined by deglobalization, a global economy entering recession or even stagflation, and rising inflation that remains underestimated by the public. Sovereign debt is soaring and becoming increasingly unstable; the credibility of US Treasury bonds and the dollar is wavering; gold prices are climbing, and governments are beginning to intervene. As the new technological revolution enters its growth phase, economic stagnation is driving society into a period of turbulence. Simultaneously, the treacherous international order is becoming increasingly unpredictable. While these are long-term trends, the eruption of any single "Black Swan" event within this context could have a massive, short-term impact on both the market and society.
+                        </p>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="py-8">
+                        <div class="w-24 h-px bg-neutral-300"></div>
+                    </div>
+
+                    <!-- Conclusion -->
+                    <p class="text-2xl md:text-3xl font-display italic text-black leading-tight">
+                        "I truly feel that through the knowledge gained from self-study, I am continuously growing within the relentless classroom of society and the market."
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-neutral-900 text-white pt-24 pb-20 relative z-10 hover-trigger mt-12">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-16 flex flex-col items-center justify-center">
+            
+            <h2 class="font-display text-4xl md:text-6xl mb-12 text-center tracking-tight font-light">
+                Let's Connect
+            </h2>
+            
+            <div class="flex flex-col md:flex-row gap-16 md:gap-24 items-start md:items-center justify-center">
+                
+                <!-- YouTube -->
+                <div class="flex flex-col items-center gap-5 group">
+                    <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="magnetic-wrap">
+                        <div class="magnetic-content w-16 h-16 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center group-hover:bg-white group-hover:text-[#FF0000] transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-lucide="youtube" class="w-6 h-6"></svg>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="text-white hover:text-neutral-300 transition-colors font-mono-display text-xs tracking-wider opacity-90 text-center">
+                        youtube.com/@X_tra.AI0001
+                    </a>
+                </div>
+
+                <!-- X -->
+                <div class="flex flex-col items-center gap-5 group">
+                    <a href="https://x.com/alpha765166467" target="_blank" class="magnetic-wrap">
+                        <div class="magnetic-content w-16 h-16 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300">
+                            <!-- Custom X Logo -->
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://x.com/alpha765166467" target="_blank" class="text-white hover:text-neutral-300 transition-colors font-mono-display text-xs tracking-wider opacity-90 text-center">
+                        x.com/alpha765166467
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="mt-24 flex flex-col md:flex-row justify-between items-center w-full text-neutral-500 text-[10px] tracking-widest uppercase font-mono-display">
+                <span>© 2025 Connor Pu. All Rights Reserved.</span>
+                <span class="mt-2 md:mt-0">Investment Analysis</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic -->
+    <script>
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const cursor = document.querySelector('.cursor-dot');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        hoverTriggers.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // Magnetic Effect
+        const magneticWraps = document.querySelectorAll('.magnetic-wrap');
+        magneticWraps.forEach(wrap => {
+            const content = wrap.querySelector('.magnetic-content');
+            
+            wrap.addEventListener('mousemove', (e) => {
+                const rect = wrap.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+                const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+                
+                gsap.to(content, {
+                    x: x,
+                    y: y,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            wrap.addEventListener('mouseleave', () => {
+                gsap.to(content, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            });
+        });
+
+        // Intro Animations
+        window.addEventListener('load', () => {
+            gsap.to('.animate-title-reveal', {
+                y: 0,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "power4.out",
+                delay: 0.2
+            });
+
+            gsap.to('.animate-line-reveal', {
+                scaleX: 1,
+                duration: 1.5,
+                ease: "expo.out",
+                delay: 0.8
+            });
+
+            gsap.to('.animate-fade-in', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out",
+                delay: 1
+            });
+            
+            gsap.fromTo('.reveal-slide-up', 
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 0.5 }
+            );
+        });
+    </script>
+
+</body></html>

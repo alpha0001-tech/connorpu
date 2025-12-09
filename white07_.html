@@ -1,0 +1,470 @@
+<html lang="en" class="antialiased"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPU vs TPU | Connor Pu</title>
+
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;family=Space+Grotesk:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+
+    <style>
+        /* Core Settings */
+        :root {
+            --cursor-size: 20px;
+            --cursor-hover-size: 60px;
+            --accent: #FF4D00;
+            --bg-color: #F9F9FB;
+            --text-primary: #111111;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        /* Typography Override */
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .font-mono-display {
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background-color: var(--text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s,
+                mix-blend-mode 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        body.hovering .cursor-dot {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+            background-color: #fff;
+            mix-blend-mode: difference;
+        }
+
+        /* Magnetic Effect */
+        .magnetic-wrap {
+            display: inline-block;
+            position: relative;
+        }
+
+        .magnetic-content {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        /* Animations */
+        .animate-title-reveal {
+            will-change: transform;
+        }
+        
+        .article-block {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        /* Smooth Scrollbar */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-8 md:px-16 flex justify-end items-center mix-blend-multiply pointer-events-none">
+        <div class="flex flex-wrap justify-end gap-6 md:gap-10 text-[11px] md:text-xs tracking-widest pointer-events-auto font-mono-display">
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">WHO AM I</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">AI APPS &amp; FILMS</span>
+            </a>
+            <!-- Active State -->
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-[#FF4D00] font-bold">AI INVESTMENT INSIGHT</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">MY AI MANIFESTO</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="md:pt-40 md:px-16 flex-grow w-full max-w-[1400px] mr-auto ml-auto pt-32 pr-6 pb-20 pl-6 relative">
+
+        <!-- Header Meta -->
+        <div class="mb-10 overflow-hidden">
+            <div class="flex gap-3 reveal-slide-up gap-x-3 gap-y-3 items-center">
+                <div class="w-2 h-2 rounded-full bg-[#FF4D00]"></div>
+                <p class="uppercase text-xs font-medium text-neutral-500 tracking-[0.2em] font-mono-display">Connor Pu • Semiconductor Analysis • 2025.02.14</p>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="font-display text-[8vw] md:text-[3.5rem] leading-[1.1] tracking-tight text-black mb-8 max-w-4xl">
+            <div class="overflow-hidden">
+                <span class="block transform animate-title-reveal translate-y-full">GPU vs TPU</span>
+            </div>
+        </h1>
+        
+        <div class="mb-16 overflow-hidden max-w-2xl">
+            <p class="text-lg md:text-xl text-neutral-500 font-light leading-relaxed transform animate-title-reveal translate-y-full" style="animation-delay: 0.1s;">
+                Insights on Google TPUs from a SemiAnalysis Podcast (9 Months Ago)
+            </p>
+        </div>
+
+        <!-- Divider -->
+        <div class="w-full h-px bg-neutral-200 mb-16 scale-x-0 animate-line-reveal origin-left"></div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 opacity-0 animate-fade-in delay-500">
+
+            <!-- Left Spacer / Table of Contents -->
+            <div class="hidden md:block md:col-span-3 sticky top-32 self-start">
+                <div class="text-[10px] font-semibold text-neutral-400 tracking-widest uppercase mb-6 font-mono-display">Structure</div>
+                <ul class="space-y-4 text-xs md:text-xs text-neutral-500 font-medium tracking-wide font-mono-display">
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                        <span class="text-neutral-300 group-hover:text-[#FF4D00]">01</span> Scale &amp; Architecture
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                        <span class="text-neutral-300 group-hover:text-[#FF4D00]">02</span> Internal Mission
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                         <span class="text-neutral-300 group-hover:text-[#FF4D00]">03</span> Co-design Issues
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                         <span class="text-neutral-300 group-hover:text-[#FF4D00]">04</span> Software Ecosystem
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                         <span class="text-neutral-300 group-hover:text-[#FF4D00]">05</span> Organization
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group mt-4 pt-4 border-t border-neutral-100">
+                         <span class="text-neutral-300 group-hover:text-[#FF4D00]">→</span> Summary
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Content Column -->
+            <div class="md:col-span-8 w-full">
+                
+                <!-- Introduction -->
+                <div class="article-block mb-12">
+                    <p class="text-base md:text-lg font-light leading-relaxed text-neutral-800">
+                        This video primarily discusses Google’s TPU cluster architecture, its divergence from Nvidia GPUs, and why Google—despite possessing potent hardware—has not dominated the external chip sales (merchant silicon) market like Nvidia. Below are the detailed points expressed by Dylan Patel.
+                    </p>
+                </div>
+
+                <!-- Section 1 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">01</span>
+                        <h2 class="font-display text-2xl md:text-3xl text-black font-medium tracking-tight">Google Has the Largest Scale, but a Unique Architecture</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p><strong class="font-medium text-neutral-900">Scale and Layout:</strong> Google actually possesses the world's largest computing clusters, but their deployment strategy differs fundamentally from the "single, monolithic giant cluster" approach pursued by Nvidia or Elon Musk (e.g., xAI).</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">Multi-Data Center Interconnection:</strong> Instead of concentrating all chips into one massive physical site, Google’s supercomputers are distributed across multiple data centers located in close proximity (for example, four data centers in Iowa and Nebraska, and similar facilities in Ohio).</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">High-Speed Connectivity:</strong> These data centers are tightly coupled via extremely high-bandwidth fiber optic networks, forming what are known as "Super Regions." Although physically dispersed (roughly 30 miles apart), they operate logically as a single cohesive unit.</p>
+
+                        <p><strong class="font-medium text-neutral-900">Infrastructure Design:</strong> Google’s data center design is highly unique and advanced, equipped with specialized water-cooling towers and backup diesel generators. The infrastructure is custom-built specifically to support the efficient operation of TPUs.</p>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">02</span>
+                        <h2 class="font-display text-2xl md:text-3xl text-black font-medium tracking-tight">The Core Mission of TPU: Serving Internal Business</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p><strong class="font-medium text-neutral-900">Lowering Search Costs:</strong> The original genesis of the TPU was to drive the operating costs of Google Search down to rock bottom and to build models specifically for that purpose.</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">Priority on Internal Workloads:</strong> The vast majority of TPU capacity is dedicated to Google’s own core businesses, including Search, YouTube, Ads, and now the Gemini models. These businesses generate hundreds of billions in revenue annually—they are Google’s "Golden Goose."</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">Lack of Sales Incentive:</strong> Compared to the model of earning tens of billions by selling chips (the Nvidia model), Google is far more focused on protecting and optimizing its core, high-margin service businesses. Consequently, it is extremely difficult to convince senior leadership to alter strategy just to sell chips.</p>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">03</span>
+                        <h2 class="font-display text-2xl md:text-3xl text-black font-medium tracking-tight">The Double-Edged Sword of Hardware-Software Co-design</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p><strong class="font-medium text-neutral-900">Targeted Optimization:</strong> Google’s architecture is optimized to the extreme for its own requirements. For instance, Google’s open-source Gemma 7B model actually has 8 billion parameters. This is because its Vocabulary size is exceptionally large.</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">Architectural Divergence:</strong> This design choice stems from the fact that the TPU’s Matrix Multiply Unit (MMU) is massive; Google was forced to increase the vocabulary size just to saturate the hardware’s compute capacity.</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">Compatibility Issues:</strong> This specific optimization makes Gemma run with incredible efficiency on TPUs, but it performs worse than LLaMA on Nvidia GPUs. Conversely, LLaMA does not run as efficiently on TPUs as Gemma does.</p>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">04</span>
+                        <h2 class="font-display text-2xl md:text-3xl text-black font-medium tracking-tight">The Closed Nature of the Software Ecosystem</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p><strong class="font-medium text-neutral-900">Superb Internal Experience:</strong> Inside Google, the software stack used by researchers (such as JAX and XLA) is highly optimized. Researchers can train models efficiently through abstract layers without needing to understand the underlying hardware details—the experience is described as "magical."</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">External Adaptation Difficulties:</strong> When these researchers leave Google to found new startups, they often face a massive shock. Because this highly integrated internal infrastructure does not exist outside, they find that whether they use GPUs or try to use TPUs, they are forced to grapple with complex infrastructure and software challenges.</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">Software Not Productized:</strong> Google’s internal software stack was built primarily to serve DeepMind and the Search teams, unlike Nvidia’s CUDA and NCCL, which were polished into commercial products specifically to serve external customers.</p>
+                    </div>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">05</span>
+                        <h2 class="font-display text-2xl md:text-3xl text-black font-medium tracking-tight">Organizational Fragmentation</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p><strong class="font-medium text-neutral-900">Departmental Silos:</strong> There is significant bureaucracy and fragmentation within Google. Google Cloud, the TPU hardware team, DeepMind, and the Search team are independent organizations.</p>
+                        
+                        <p><strong class="font-medium text-neutral-900">Misaligned Goals:</strong> The TPU team sits within the infrastructure division; its primary customers are DeepMind and the Search team, not Google Cloud’s external clients. This results in a TPU service experience on Google Cloud that is less customer-centric than Nvidia’s offering.</p>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="article-block bg-neutral-100 p-8 rounded-sm border border-neutral-200 hover:border-[#FF4D00]/30 transition-colors duration-500">
+                    <h3 class="font-mono-display uppercase tracking-widest text-xs font-semibold text-neutral-400 mb-4">Summary</h3>
+                    <p class="font-display text-lg md:text-xl italic text-neutral-900 leading-relaxed">
+                        "Google possesses incredibly powerful hardware capabilities and a cluster scale that arguably surpasses Nvidia’s. However, its technology stack is highly 'inward-facing'—everything is designed to optimize its own Search and Ad businesses. This deep customization makes it difficult for its hardware and software to be adopted as general-purpose products like Nvidia’s."
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-[#111] text-white pt-24 pb-16 relative z-10 hover-trigger mt-20">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-16 flex flex-col items-center justify-center">
+            
+            <h2 class="font-display text-4xl md:text-5xl mb-16 text-center tracking-tight font-light text-neutral-100">
+                Let's Connect
+            </h2>
+            
+            <div class="flex flex-col md:flex-row gap-16 md:gap-24 items-start md:items-center justify-center">
+                
+                <!-- YouTube -->
+                <div class="flex flex-col items-center gap-5 group">
+                    <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="magnetic-wrap">
+                        <div class="magnetic-content w-14 h-14 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center group-hover:bg-white group-hover:text-[#FF0000] transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-lucide="youtube" class="w-5 h-5"></svg>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="text-neutral-400 hover:text-white transition-colors font-mono-display text-[10px] tracking-widest opacity-80 text-center uppercase">
+                        YouTube
+                    </a>
+                </div>
+
+                <!-- X -->
+                <div class="flex flex-col items-center gap-5 group">
+                    <a href="https://x.com/alpha765166467" target="_blank" class="magnetic-wrap">
+                        <div class="magnetic-content w-14 h-14 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4 h-4 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://x.com/alpha765166467" target="_blank" class="text-neutral-400 hover:text-white transition-colors font-mono-display text-[10px] tracking-widest opacity-80 text-center uppercase">
+                        Twitter / X
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="mt-24 flex flex-col md:flex-row justify-between items-center w-full text-neutral-600 text-[10px] tracking-widest uppercase font-mono-display border-t border-neutral-800 pt-8">
+                <span>© 2025 Connor Pu. All Rights Reserved.</span>
+                <span class="mt-2 md:mt-0">Semiconductor Analysis</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const cursor = document.querySelector('.cursor-dot');
+        
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        // Hover Effect Management
+        const updateHoverTriggers = () => {
+            const triggers = document.querySelectorAll('.hover-trigger, a, button');
+            triggers.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            });
+        };
+        updateHoverTriggers();
+
+        // Magnetic Effect
+        const magneticWraps = document.querySelectorAll('.magnetic-wrap');
+        magneticWraps.forEach(wrap => {
+            const content = wrap.querySelector('.magnetic-content');
+            
+            wrap.addEventListener('mousemove', (e) => {
+                const rect = wrap.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+                const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+                
+                gsap.to(content, {
+                    x: x,
+                    y: y,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            wrap.addEventListener('mouseleave', () => {
+                gsap.to(content, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            });
+        });
+
+        // Animations
+        window.addEventListener('load', () => {
+            // Header Sequence
+            const tl = gsap.timeline();
+
+            tl.to('.animate-title-reveal', {
+                y: 0,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "power4.out",
+                delay: 0.2
+            })
+            .fromTo('.reveal-slide-up', 
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, ease: "power2.out" },
+                "-=1.0"
+            )
+            .to('.animate-line-reveal', {
+                scaleX: 1,
+                duration: 1.5,
+                ease: "expo.out"
+            }, "-=0.8")
+            .to('.animate-fade-in', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=1");
+
+            // Scroll Reveal for Articles
+            gsap.utils.toArray('.article-block').forEach(block => {
+                gsap.fromTo(block, 
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: block,
+                            start: "top 90%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+        });
+    </script>
+
+
+</body></html>

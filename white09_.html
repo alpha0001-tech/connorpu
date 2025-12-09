@@ -1,0 +1,463 @@
+<html lang="en" class="antialiased"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPU Depreciation? | AI Investment Insight</title>
+
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;family=Space+Grotesk:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+
+    <style>
+        /* Core Settings */
+        :root {
+            --cursor-size: 20px;
+            --cursor-hover-size: 60px;
+            --accent: #FF4D00;
+            --bg-color: #F9F9FB;
+            --text-primary: #111111;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        /* Typography Override */
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .font-mono-display {
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background-color: var(--text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s,
+                mix-blend-mode 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        body.hovering .cursor-dot {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+            background-color: #fff;
+            mix-blend-mode: difference;
+        }
+
+        /* Magnetic Effect */
+        .magnetic-wrap {
+            display: inline-block;
+            position: relative;
+        }
+
+        .magnetic-content {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        /* Animations */
+        .animate-title-reveal {
+            will-change: transform;
+        }
+        
+        .article-block {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        /* Smooth Scrollbar */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-8 md:px-16 flex justify-end items-center mix-blend-multiply pointer-events-none">
+        <div class="flex flex-wrap justify-end gap-6 md:gap-10 text-[11px] md:text-xs tracking-widest pointer-events-auto font-mono-display">
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">WHO AM I</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">AI APPS &amp; FILMS</span>
+            </a>
+            <!-- Active State -->
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-[#FF4D00] font-bold">AI INVESTMENT INSIGHT</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">MY AI MANIFESTO</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="md:pt-40 md:px-16 flex-grow w-full max-w-[1400px] mr-auto ml-auto pt-32 pr-6 pb-20 pl-6 relative">
+
+        <!-- Header Meta -->
+        <div class="mb-10 overflow-hidden">
+            <div class="flex gap-3 reveal-slide-up gap-x-3 gap-y-3 items-center">
+                <div class="w-2 h-2 rounded-full bg-[#FF4D00]"></div>
+                <p class="uppercase text-xs font-medium text-neutral-500 tracking-[0.2em] font-mono-display">Hardware Analysis • Economic Value • 2025.11.24</p>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <!-- Font size reduced per request -->
+        <h1 class="font-display text-[5vw] md:text-[2.75rem] leading-[1.1] tracking-tight text-black mb-8 max-w-4xl">
+            <div class="overflow-hidden">
+                <span class="block transform animate-title-reveal translate-y-full">GPU Depreciation?</span>
+            </div>
+        </h1>
+        
+        <div class="mb-16 overflow-hidden max-w-2xl">
+            <p class="text-lg md:text-xl text-neutral-500 font-light leading-relaxed transform animate-title-reveal translate-y-full" style="animation-delay: 0.1s;">
+                The Economic Case for Extended GPU Lifespan
+            </p>
+        </div>
+
+        <!-- Divider -->
+        <div class="w-full h-px bg-neutral-200 mb-16 scale-x-0 animate-line-reveal origin-left"></div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 opacity-0 animate-fade-in delay-500">
+
+            <!-- Left Spacer / Table of Contents -->
+            <div class="hidden md:block md:col-span-3 sticky top-32 self-start">
+                <div class="text-[10px] font-semibold text-neutral-400 tracking-widest uppercase mb-6 font-mono-display">Structure</div>
+                <ul class="space-y-4 text-xs md:text-xs text-neutral-500 font-medium tracking-wide font-mono-display">
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                        <span class="text-neutral-300 group-hover:text-[#FF4D00]">01</span> Supply Dynamics
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                        <span class="text-neutral-300 group-hover:text-[#FF4D00]">02</span> Token Consumption
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                         <span class="text-neutral-300 group-hover:text-[#FF4D00]">03</span> Computational Principles
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                         <span class="text-neutral-300 group-hover:text-[#FF4D00]">04</span> Power Efficiency
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                         <span class="text-neutral-300 group-hover:text-[#FF4D00]">05</span> Global Demand
+                    </li>
+                    <li class="hover:text-[#FF4D00] transition-colors cursor-pointer flex items-center gap-3 group">
+                         <span class="text-neutral-300 group-hover:text-[#FF4D00]">06</span> Software Optimization
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Content Column -->
+            <div class="md:col-span-8 w-full">
+                
+                <!-- Introduction -->
+                <div class="article-block mb-12">
+                    <p class="text-base md:text-lg font-light leading-relaxed text-neutral-800">
+                        While Semi-Analysis has explained the extension of GPU theoretical lifespan from a hardware maintenance perspective, the following points elucidate this phenomenon from the perspective of <span class="font-medium text-black">"Economic Value"</span>.
+                    </p>
+                </div>
+
+                <!-- Section 1 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">01</span>
+                        <h2 class="font-display text-xl md:text-2xl text-black font-medium tracking-tight">Supply Dynamics</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p>Viewing this from a total supply standpoint: The aggregate shortage of GPUs ensures that "legacy silicon" (older chips) retains significant economic value.</p> 
+                        <p>We are currently in a deficit of GPU resources; there is no oversupply of next-gen chips that renders the previous generation obsolete. Furthermore, because GPUs are high-value capital assets, old chips cannot simply be swapped out immediately for new ones. Instead, the strategy is to extend their service life as long as possible.</p>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">02</span>
+                        <h2 class="font-display text-xl md:text-2xl text-black font-medium tracking-tight">Token Consumption</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p>An extension of the first point: The demand for tokens is growing exponentially. Behind the general shortage of GPUs lies a world where the demand for total token volume is skyrocketing.</p>
+                        <p>This implies that the utility value of every single GPU will be squeezed until the very last moment.</p>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">03</span>
+                        <h2 class="font-display text-xl md:text-2xl text-black font-medium tracking-tight">Computational Principles</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p>Old GPUs remain highly effective. Although the single-chip compute power of a legacy GPU pales in comparison to a modern one, the same computational results can be achieved by stacking them in larger quantities, thanks to the nature of parallel computing.</p>
+                        <div class="bg-neutral-50 p-6 rounded-sm border border-neutral-100 mt-2">
+                             <p class="font-display italic text-lg text-neutral-800">"You don't necessarily need the best chips to build the best AI."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">04</span>
+                        <h2 class="font-display text-xl md:text-2xl text-black font-medium tracking-tight">Power Efficiency Realities</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p>There is a mismatch between power resources and GPU resources. If a company has secured power capacity but possesses only legacy GPUs—or lacks the capital/access to acquire the latest hardware—their only viable option is to continue operating the old hardware.</p>
+                        <p>In this scenario, pragmatism trumps the theoretical pursuit of maximizing <span class="text-neutral-900 font-normal">"tokens per kilowatt-hour."</span></p>
+                    </div>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">05</span>
+                        <h2 class="font-display text-xl md:text-2xl text-black font-medium tracking-tight">Global Demand Hierarchies</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p>There is a tiered distribution of GPU resources globally. While top-tier US firms deploy the absolute latest 1-2 generations of GPUs, older hardware (or its compute capacity) can be sold or leased to second-tier domestic players, or cascaded to other nations, including Europe and China ("The East").</p>
+                        <p>A complete, mature secondary market supply chain exists within the semiconductor industry, and GPUs are the crown jewel of this trade. The only lingering concern is whether, due to export bans, China will maintain sufficient channels to digest this massive scale of future secondary chips.</p>
+                    </div>
+                </div>
+
+                <!-- Section 6 -->
+                <div class="article-block mb-16 group hover-trigger">
+                    <div class="flex items-baseline gap-4 mb-4">
+                        <span class="font-mono-display text-[#FF4D00] text-sm font-semibold tracking-wider">06</span>
+                        <h2 class="font-display text-xl md:text-2xl text-black font-medium tracking-tight">Software Optimization</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-[15px] leading-7 text-neutral-600 font-light pl-0 md:pl-8 border-l border-transparent md:group-hover:border-neutral-200 transition-colors duration-500">
+                        <p>Legacy chips can deliver performance that exceeds their original specs. If "neocloud" providers or other users possess superior software technical support, they can optimize legacy chips to maximize efficiency and token generation.</p>
+                        <p>This allows old hardware to command a premium price. Referring to the <strong class="font-medium text-neutral-900">CoreWeave (CRWV)</strong> example mentioned earlier, I believe such companies provide the necessary assurances for high-efficiency chip utilization.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-[#111] text-white pt-24 pb-16 relative z-10 hover-trigger mt-20">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-16 flex flex-col items-center justify-center">
+            
+            <h2 class="font-display text-4xl md:text-5xl mb-16 text-center tracking-tight font-light text-neutral-100">
+                Let's Connect
+            </h2>
+            
+            <div class="flex flex-col md:flex-row gap-16 md:gap-24 items-start md:items-center justify-center">
+                
+                <!-- YouTube -->
+                <div class="flex flex-col items-center gap-5 group">
+                    <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="magnetic-wrap">
+                        <div class="magnetic-content w-14 h-14 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center group-hover:bg-white group-hover:text-[#FF0000] transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-lucide="youtube" class="w-5 h-5"></svg>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="text-neutral-400 hover:text-white transition-colors font-mono-display text-[10px] tracking-widest opacity-80 text-center uppercase">
+                        YouTube
+                    </a>
+                </div>
+
+                <!-- X -->
+                <div class="flex flex-col items-center gap-5 group">
+                    <a href="https://x.com/alpha765166467" target="_blank" class="magnetic-wrap">
+                        <div class="magnetic-content w-14 h-14 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4 h-4 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://x.com/alpha765166467" target="_blank" class="text-neutral-400 hover:text-white transition-colors font-mono-display text-[10px] tracking-widest opacity-80 text-center uppercase">
+                        Twitter / X
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="mt-24 flex flex-col md:flex-row justify-between items-center w-full text-neutral-600 text-[10px] tracking-widest uppercase font-mono-display border-t border-neutral-800 pt-8">
+                <span>© 2025 Connor Pu. All Rights Reserved.</span>
+                <span class="mt-2 md:mt-0">Semiconductor Analysis</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const cursor = document.querySelector('.cursor-dot');
+        
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        // Hover Effect Management
+        const updateHoverTriggers = () => {
+            const triggers = document.querySelectorAll('.hover-trigger, a, button');
+            triggers.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            });
+        };
+        updateHoverTriggers();
+
+        // Magnetic Effect
+        const magneticWraps = document.querySelectorAll('.magnetic-wrap');
+        magneticWraps.forEach(wrap => {
+            const content = wrap.querySelector('.magnetic-content');
+            
+            wrap.addEventListener('mousemove', (e) => {
+                const rect = wrap.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+                const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+                
+                gsap.to(content, {
+                    x: x,
+                    y: y,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            wrap.addEventListener('mouseleave', () => {
+                gsap.to(content, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            });
+        });
+
+        // Animations
+        window.addEventListener('load', () => {
+            // Header Sequence
+            const tl = gsap.timeline();
+
+            tl.to('.animate-title-reveal', {
+                y: 0,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "power4.out",
+                delay: 0.2
+            })
+            .fromTo('.reveal-slide-up', 
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, ease: "power2.out" },
+                "-=1.0"
+            )
+            .to('.animate-line-reveal', {
+                scaleX: 1,
+                duration: 1.5,
+                ease: "expo.out"
+            }, "-=0.8")
+            .to('.animate-fade-in', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=1");
+
+            // Scroll Reveal for Articles
+            gsap.utils.toArray('.article-block').forEach(block => {
+                gsap.fromTo(block, 
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: block,
+                            start: "top 90%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+        });
+    </script>
+
+
+</body></html>

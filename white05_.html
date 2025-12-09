@@ -1,0 +1,400 @@
+<html lang="en" class="antialiased"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kimi-k2: Another DeepSeek Moment? | Connor Pu</title>
+
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;family=Space+Grotesk:wght@300;400;500&amp;display=swap" rel="stylesheet">
+
+    <style>
+        /* Core Settings */
+        :root {
+            --cursor-size: 20px;
+            --cursor-hover-size: 60px;
+            --accent: #FF4D00;
+            --bg-color: #F9F9FB;
+            --text-primary: #111111;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        /* Typography Override */
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .font-mono-display {
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background-color: var(--text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s,
+                mix-blend-mode 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        body.hovering .cursor-dot {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+            background-color: #fff;
+            mix-blend-mode: difference;
+        }
+
+        /* Magnetic Effect */
+        .magnetic-wrap {
+            display: inline-block;
+            position: relative;
+        }
+
+        .magnetic-content {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        /* Animations */
+        .animate-title-reveal {
+            will-change: transform;
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative selection:bg-orange-500 selection:text-white flex flex-col">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-8 md:px-16 flex justify-end items-center mix-blend-multiply pointer-events-none">
+        <div class="flex flex-wrap justify-end gap-6 md:gap-10 text-[11px] md:text-xs tracking-widest pointer-events-auto font-mono-display">
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">WHO AM I</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">AI APPS &amp; FILMS</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-[#FF4D00] font-bold">AI INVESTMENT INSIGHT</span>
+            </a>
+            <a href="#" class="magnetic-wrap hover-trigger group">
+                <span class="magnetic-content inline-block text-neutral-400 font-medium hover:text-black transition-colors duration-300">MY AI MANIFESTO</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="md:pt-40 md:px-16 flex-grow w-full max-w-[1600px] mr-auto ml-auto pt-32 pr-6 pb-20 pl-6 relative">
+
+        <!-- Header Meta -->
+        <div class="mb-10 overflow-hidden">
+            <div class="flex gap-3 reveal-slide-up gap-x-3 gap-y-3 items-center">
+                <div class="w-2 h-2 rounded-full bg-[#FF4D00]"></div>
+                <p class="uppercase text-xs font-medium text-neutral-500 tracking-[0.2em] font-mono-display">Connor Pu • Analysis • 2025.10</p>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <!-- Resized: Smaller than previous version as requested -->
+        <h1 class="font-display text-[7vw] md:text-[4.5rem] leading-[1] tracking-tight text-black mb-16">
+            <div class="overflow-hidden">
+                <span class="block transform animate-title-reveal translate-y-full">Kimi-k2, another</span>
+            </div>
+            <div class="overflow-hidden">
+                <span class="block transform translate-y-full animate-title-reveal" style="animation-delay: 0.1s;">DeepSeek moment?</span>
+            </div>
+        </h1>
+
+        <!-- Divider -->
+        <div class="w-full h-px bg-neutral-200 mb-16 scale-x-0 animate-line-reveal origin-left"></div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 opacity-0 animate-fade-in delay-500">
+
+            <!-- Left Spacer / Context -->
+            <div class="hidden md:block md:col-span-3 sticky top-32 self-start">
+                <div class="text-[10px] font-semibold text-neutral-400 tracking-widest uppercase mb-6 font-mono-display">Context</div>
+                <ul class="space-y-3 text-xs md:text-sm text-neutral-500 font-light tracking-wide">
+                    <li class="text-black font-medium">01. The Kimi k2 Model</li>
+                    <li class="hover:text-black transition-colors cursor-pointer">02. Nvidia's Outlook</li>
+                    <li class="hover:text-black transition-colors cursor-pointer">03. The Consensus Shift</li>
+                    <li class="hover:text-black transition-colors cursor-pointer">04. Policy: Biden vs Trump</li>
+                    <li class="hover:text-black transition-colors cursor-pointer">05. The New Paradigm</li>
+                </ul>
+            </div>
+
+            <!-- Content Column -->
+            <div class="md:col-span-8 max-w-3xl">
+
+                <!-- Article Body -->
+                <div class="space-y-12 text-lg md:text-[1.125rem] leading-[1.8] text-neutral-800 font-light">
+                    
+                    <!-- Section 1: Kimi k2 -->
+                    <div class="group">
+                        <p>
+                            <span class="text-black font-semibold block mb-2 text-xl font-display">The Strength of Kimi k2</span>
+                            The Kimi k2 thinking model is genuinely impressive. Since its launch in July, it has undergone two significant updates in September and November, rolling out a 256k context window, improved coding capabilities, and "thinking" with interleaved reasoning.
+                            <br><br>
+                            <span class="text-xs font-mono-display text-neutral-400 tracking-wide block border-l-2 border-neutral-200 pl-3 mt-2 mb-4">
+                                [Visual evidence: Kimi k2 leading in benchmarks. AI constructing high-complexity, high-precision websites. AI rendering a 3D version of Tokyo.]
+                            </span>
+                        </p>
+                    </div>
+
+                    <!-- Section 2: Nvidia -->
+                    <div class="group">
+                        <p>
+                            <span class="text-black font-semibold block mb-2 text-xl font-display">Nvidia's Outlook</span>
+                            With Nvidia's earnings report dropping on November 19, I remain bullish on NVDA for the long term. This confidence holds regardless of whether we look at the legacy market—where general-purpose computing is transitioning to accelerated computing—or the incremental demand from new markets like AI models, applications, 6G, quantum computing, autonomous driving, robotics, and digital factories. Built upon the competitive moat of hardware chip manufacturing + CUDA software + NVLink chip interconnects, Nvidia possesses massive cash flow and significant potential to scale up and scale out.
+                        </p>
+                    </div>
+
+                    <!-- Section 3: DeepSeek Question -->
+                    <div class="group relative">
+                        <div class="absolute -left-6 top-2 w-1 h-full bg-neutral-200 hidden md:block"></div>
+                        <p>
+                            <span class="text-black font-semibold block mb-2 text-xl font-display">The "DeepSeek Moment" Question</span>
+                            However, the pressing question is: <span class="text-black font-medium italic">Will Kimi k2 trigger a recurrence of the "DeepSeek Moment" from early 2025, causing a crash in US stocks?</span> My answer is no.
+                        </p>
+                        <p class="mt-6">
+                            Factually, both Kimi k2 and DeepSeek serve as Chinese open-source LLMs that, at extremely low costs, have surpassed or achieved parity with the most cutting-edge US closed-source LLMs in many domains. When DeepSeek was released in February 2025, its exposure exploded after a one-week lag, and the US stock market plummeted immediately. The critical difference, however, lies in the timing: between early 2025 and late 2025, the mainstream consensus—both in the US and globally—regarding China's AI capabilities has undergone a seismic shift.
+                        </p>
+                    </div>
+
+                    <!-- Section 4: Consensus -->
+                    <div class="group">
+                        <p>
+                            <span class="text-black font-semibold block mb-2 text-xl font-display">The Shattering of Consensus</span>
+                            Before DeepSeek (DS) emerged, Trump had just taken office, and new AI policies had not yet been updated. Social expectations aligned with the rhetoric of Eric Schmidt, the former Google CEO and chief AI policy advisor during the Biden administration, who claimed, "The US is 2–3 years ahead of China in AI." The arrival of DS completely shattered this consensus. Schmidt later admitted his misjudgment, shifting his expectation to: 
+                            <span class="block text-black font-display text-xl italic my-4 pl-4 border-l border-[#FF4D00]">"China is only 2–3 months behind the US in AI, and even ahead in certain aspects."</span>
+                        </p>
+                        <p class="mt-4">
+                            This raised a terrifying question for investors: "Is the high valuation of the US AI supply chain priced in too aggressively?" This realization was the primary driver of the broad market correction. (In this mainstream climate, the "China AI Threat Theory" also emerged and was exploited; CEOs across the industry used the threat narrative to elevate their AI business to the level of national security to secure investment and government backing. For example, Jensen Huang stated that China is "nanoseconds" behind the US, a move designed to lobby the government to relax regulations so Nvidia could sell more chips to China and establish a monopoly.)
+                        </p>
+                    </div>
+
+                    <!-- Section 5: Policy -->
+                    <div class="group">
+                        <p>
+                            <span class="text-black font-semibold block mb-2 text-xl font-display">Policy Shifts: Biden vs. Trump</span>
+                            Even the AI policy during the Biden era was built entirely on the consensus that China was lagging by 2–3 years. Following the CHIPS Act's ban on high-end Nvidia exports, US policy favored heavy regulation. The strategy was to designate a select few AI companies to develop and close-source massive amounts of cutting-edge technology, developing AI slowly and fully within a "safe" framework. Bluntly put, the goal was to ensure that the products and technologies of AI companies served the American elite, helping the establishment solidify a stable monopoly on AI technology and applications both domestically and globally.
+                        </p>
+                        <p class="mt-6">
+                            I vividly remember early 2025, when entrepreneurs like Sam Altman and Elon Musk accompanied Trump to visit the Saudi Crown Prince face-to-face. Sam made a specific hand gesture, symbolizing a strategy: internally develop highly disruptive new technologies while simultaneously controlling and suppressing the speed at which uncertainty ferments in society. This guarantees the monopoly status of the US and its corporations, eventually allowing for a "dimensional strike" (strategic overmatch) against other nations after a period of time. This is a playbook Biden was very familiar with; as a veteran politician from the Cold War era, he understood that the Gulf War—where the US launched a technological "dimensional strike" against Iraq (then the world's 6th largest military)—was backed by exactly this kind of policy.
+                        </p>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="py-4">
+                        <div class="w-16 h-px bg-neutral-300"></div>
+                    </div>
+
+                    <!-- Section 6: New Paradigm -->
+                    <div class="group">
+                        <p>
+                            <span class="text-black font-semibold block mb-2 text-xl font-display">The New Paradigm</span>
+                            But the policy changed after Trump took office. It wasn't just a change of political parties and interest groups; the consensus and expectations regarding AI also shifted. David Sacks, representing the Silicon Valley right-wing faction, introduced the "AI Action Act" as Secretary. Facing the reality of China catching up, the new approach involves strengthening export restrictions on AI chips and related supply chains while simultaneously fully deregulating competition among companies. The government has even implicitly stepped in to drive AI investment, binding the economy to AI.
+                        </p>
+                        <p class="mt-6">
+                            By now, in late 2025, the US has accepted the "China AI Threat" consensus. Regarding how Kimi achieved such high quality, China's strategy can be summarized by this quote:
+                            <span class="block bg-neutral-100 p-6 my-6 text-sm md:text-base font-medium text-neutral-600 rounded-sm">
+                                "The US has the strongest chips and AI infrastructure; they spent $1 trillion to build a 99/100 model. The 'East' (China) simply waited, and once the path was clear, they used inferior AI infrastructure and spent $1 billion to build a 90/100 model."
+                            </span>
+                             —The US AI industry has tacitly accepted this consensus.
+                        </p>
+                    </div>
+
+                    <!-- Conclusion -->
+                    <div class="mt-16 pt-8 border-t border-neutral-100">
+                        <p class="font-light mb-6">
+                            Under these expectations, if a Chinese open-source LLM suddenly appears at an extremely low cost and rivals top-tier US LLMs, it falls within the realm of social expectations and will not cause panic.
+                        </p>
+                        <p class="text-2xl md:text-3xl font-display italic text-black leading-tight">
+                            The real disaster for US stocks arrives when the 'East' uses $1 billion to create something that comprehensively surpasses what the US built with $1 trillion. This has not happened yet.
+                        </p>
+                        <p class="mt-8 text-sm text-neutral-500">
+                            Therefore, the so-called "DeepSeek Moment" implies more than just China developing an open-source LLM at low cost that rivals the US. The essence of the DeepSeek Moment was the shattering of society's expectations and consensus regarding China's standing in AI.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-[#111] text-white pt-24 pb-16 relative z-10 hover-trigger mt-12">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-16 flex flex-col items-center justify-center">
+            
+            <h2 class="font-display text-4xl md:text-5xl mb-16 text-center tracking-tight font-light text-neutral-100">
+                Let's Connect
+            </h2>
+            
+            <div class="flex flex-col md:flex-row gap-16 md:gap-24 items-start md:items-center justify-center">
+                
+                <!-- YouTube -->
+                <div class="flex flex-col items-center gap-5 group">
+                    <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="magnetic-wrap">
+                        <div class="magnetic-content w-14 h-14 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center group-hover:bg-white group-hover:text-[#FF0000] transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-lucide="youtube" class="w-5 h-5"></svg>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="text-neutral-400 hover:text-white transition-colors font-mono-display text-[10px] tracking-widest opacity-80 text-center uppercase">
+                        YouTube
+                    </a>
+                </div>
+
+                <!-- X -->
+                <div class="flex flex-col items-center gap-5 group">
+                    <a href="https://x.com/alpha765166467" target="_blank" class="magnetic-wrap">
+                        <div class="magnetic-content w-14 h-14 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4 h-4 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://x.com/alpha765166467" target="_blank" class="text-neutral-400 hover:text-white transition-colors font-mono-display text-[10px] tracking-widest opacity-80 text-center uppercase">
+                        Twitter / X
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="mt-24 flex flex-col md:flex-row justify-between items-center w-full text-neutral-600 text-[10px] tracking-widest uppercase font-mono-display border-t border-neutral-800 pt-8">
+                <span>© 2025 Connor Pu. All Rights Reserved.</span>
+                <span class="mt-2 md:mt-0">Investment Analysis</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic -->
+    <script>
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const cursor = document.querySelector('.cursor-dot');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        hoverTriggers.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // Magnetic Effect
+        const magneticWraps = document.querySelectorAll('.magnetic-wrap');
+        magneticWraps.forEach(wrap => {
+            const content = wrap.querySelector('.magnetic-content');
+            
+            wrap.addEventListener('mousemove', (e) => {
+                const rect = wrap.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+                const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+                
+                gsap.to(content, {
+                    x: x,
+                    y: y,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            wrap.addEventListener('mouseleave', () => {
+                gsap.to(content, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            });
+        });
+
+        // Intro Animations
+        window.addEventListener('load', () => {
+            gsap.to('.animate-title-reveal', {
+                y: 0,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "power4.out",
+                delay: 0.2
+            });
+
+            gsap.to('.animate-line-reveal', {
+                scaleX: 1,
+                duration: 1.5,
+                ease: "expo.out",
+                delay: 0.8
+            });
+
+            gsap.to('.animate-fade-in', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out",
+                delay: 1
+            });
+            
+            gsap.fromTo('.reveal-slide-up', 
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 0.5 }
+            );
+        });
+    </script>
+
+</body></html>

@@ -1,0 +1,668 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connor Pu | AI Apps &amp; Films</title>
+
+    <!-- Core Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cursor-size: 20px;
+            --cursor-hover-size: 80px;
+        }
+
+        /* Base Reset & Performance */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #030303;
+            color: #e5e5e5;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            -webkit-font-smoothing: antialiased;
+            cursor: none;
+        }
+
+        /* Typography */
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background-color: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+            will-change: transform, width, height;
+            transition: width 0.3s, height 0.3s;
+        }
+
+        body.hovering .cursor-dot {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+        }
+
+        /* Hover Image Trail */
+        .trail-img-wrapper {
+            position: fixed;
+            width: 320px;
+            height: 420px;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0;
+            transform: scale(0.8) translate(-50%, -50%);
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            will-change: transform, opacity;
+        }
+
+        .trail-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Noise Overlay */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Tilt Effect */
+        .tilt-wrapper {
+            perspective: 1000px;
+        }
+
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s linear;
+        }
+
+        .tilt-inner {
+            transform: translateZ(20px);
+        }
+
+        /* Text Reveal Animation */
+        .shutter-wrapper {
+            overflow: hidden;
+            display: block;
+        }
+
+        .shutter-text {
+            display: block;
+            transform: translateY(110%);
+            animation: revealText 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+
+        @keyframes revealText {
+            to { transform: translateY(0); }
+        }
+
+        /* Marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 4rem;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+
+<body class="selection:bg-indigo-500/30 selection:text-indigo-200">
+
+    <!-- OPTIMIZED BACKGROUND -->
+    <!-- Z-index 0 to ensure it sits on top of body bg but behind content. Opacity increased. -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <!-- Lighter gradient overlay to let the purple/gold shine through -->
+        <div class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/40 to-[#030303]"></div>
+        <div class="w-full h-[90vh] opacity-90 hue-rotate-15 saturate-150 brightness-110">
+            <div data-us-project="opxjeAzlg0dkUUVGEZri" class="w-full h-full"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
+    </script>
+
+    <!-- FX Layers -->
+    <div class="cursor-dot"></div>
+    <div class="noise"></div>
+    <div class="trail-img-wrapper"><img src="" alt="" class="trail-img"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 bg-[#030303]/80 backdrop-blur-md border-b border-white/5 py-6">
+        <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+            <a href="index.html" class="text-3xl text-white tracking-tight font-serif hover:opacity-80 transition-opacity hover-trigger">Connor Pu</a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="ai-apps.html" class="nav-pill hover-trigger group relative p-[1px] rounded-full hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative bg-black rounded-full px-5 py-2">
+                        <span class="text-white text-xs font-medium tracking-widest uppercase">AI App &amp; Film</span>
+                    </div>
+                </a>
+                <a href="investment-insight.html" class="nav-pill hover-trigger group relative p-[1px] rounded-full hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative bg-black rounded-full px-5 py-2">
+                        <span class="text-white text-xs font-medium tracking-widest uppercase">Investment Insight</span>
+                    </div>
+                </a>
+                <a href="declaration.html" class="nav-pill hover-trigger group relative p-[1px] rounded-full hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative bg-black rounded-full px-5 py-2">
+                        <span class="text-white text-xs font-medium tracking-widest uppercase">Declaration</span>
+                    </div>
+                </a>
+            </div>
+
+            <button class="md:hidden text-white" aria-label="Menu"><i data-lucide="menu"></i></button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION - Added z-10 relative to sit above background -->
+    <section class="flex flex-col lg:flex-row w-full min-h-screen relative z-10 pt-24" id="timeline">
+        <!-- Left: Timeline -->
+        <div class="lg:w-1/2 flex flex-col px-8 lg:pl-16 lg:pr-8 py-16 border-r border-white/5">
+            <div class="mb-12">
+                <p class="uppercase text-xs text-[#E60000] tracking-widest font-mono mb-2">Evolution Protocol</p>
+            </div>
+
+            <div class="flex flex-col gap-10">
+                <!-- Timeline Item 1 -->
+                <div class="group cursor-default hover-trigger timeline-item" data-img="https://i.postimg.cc/QMghChFQ/18511765179842_pic.jpg">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="text-lg font-mono text-[#E60000]">2022</span>
+                        <div class="h-[1px] w-8 bg-white/20 group-hover:bg-[#E60000] transition-colors"></div>
+                    </div>
+                    <div class="shutter-wrapper">
+                        <h2 class="shutter-text text-5xl md:text-6xl font-semibold text-white tracking-tight font-display group-hover:text-[#E60000] transition-colors duration-300">
+                            Chat GPT-3</h2>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="group cursor-default hover-trigger timeline-item" data-img="https://i.postimg.cc/KvgH5Qm3/18571765181229-pic.jpg">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="text-lg font-mono text-[#E60000]">2023</span>
+                        <div class="h-[1px] w-8 bg-white/20 group-hover:bg-[#E60000] transition-colors"></div>
+                    </div>
+                    <div class="shutter-wrapper">
+                        <h2 class="shutter-text delay-1 text-5xl md:text-6xl font-semibold text-white tracking-tight font-display group-hover:text-[#E60000] transition-colors duration-300">
+                            Runway Gen3</h2>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="group cursor-default hover-trigger timeline-item" data-img="https://i.postimg.cc/TPvQQXCH/18331765176799-pic.jpg">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="text-lg font-mono text-[#E60000]">2024</span>
+                        <div class="h-[1px] w-8 bg-white/20 group-hover:bg-[#E60000] transition-colors"></div>
+                    </div>
+                    <div class="shutter-wrapper">
+                        <h2 class="shutter-text delay-2 text-5xl md:text-6xl font-semibold text-white tracking-tight font-display group-hover:text-[#E60000] transition-colors duration-300">
+                            Turing Solved</h2>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 4 -->
+                <div class="group cursor-default hover-trigger timeline-item" data-img="https://i.postimg.cc/MKTWZC07/18311765176744-pic.jpg">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="text-lg font-mono text-[#E60000]">2025</span>
+                        <div class="h-[1px] w-8 bg-white/20 group-hover:bg-[#E60000] transition-colors"></div>
+                    </div>
+                    <div class="shutter-wrapper">
+                        <h2 class="shutter-text delay-3 text-5xl md:text-6xl font-semibold text-white tracking-tight font-display group-hover:text-[#E60000] transition-colors duration-300">
+                            Vibe Coding</h2>
+                    </div>
+                </div>
+
+                <!-- NEW: 2026 WHAT'S NEXT -->
+                <div class="group cursor-default hover-trigger timeline-item">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="text-lg font-mono text-[#E60000]">2026</span>
+                        <div class="h-[1px] w-8 bg-[#E60000]/50"></div>
+                    </div>
+                    <div class="shutter-wrapper">
+                        <h2 class="shutter-text delay-4 text-5xl md:text-6xl font-semibold text-[#E60000] tracking-tight font-display transition-transform duration-700 ease-out hover:scale-110 origin-left">
+                            WHAT'S NEXT?</h2>
+                    </div>
+                </div>
+
+                <!-- NEW: 2027?? -->
+                <div class="group cursor-default hover-trigger timeline-item mt-4">
+                    <div class="shutter-wrapper">
+                        <h2 class="shutter-text delay-5 text-5xl md:text-6xl font-semibold text-[#E60000]/90 tracking-tight font-display transition-transform duration-700 ease-out hover:scale-110 origin-left">
+                            2027??</h2>
+                    </div>
+                </div>
+
+                <!-- NEW: 2028??? -->
+                <div class="group cursor-default hover-trigger timeline-item mt-2">
+                    <div class="shutter-wrapper">
+                        <h2 class="shutter-text delay-6 text-5xl md:text-6xl font-semibold text-[#E60000]/80 tracking-tight font-display transition-transform duration-700 ease-out hover:scale-110 origin-left">
+                            2028???</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Abstract Visual -->
+        <div class="hidden lg:flex w-1/2 bg-[#E60000] items-center justify-center relative overflow-hidden">
+            <!-- Lightweight Pattern SVG -->
+            <svg class="absolute inset-0 w-full h-full opacity-30 mix-blend-multiply pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 100 Q 50 50 100 0" stroke="black" stroke-width="0.2" fill="none"></path>
+                <path d="M0 80 Q 50 30 100 20" stroke="black" stroke-width="0.2" fill="none"></path>
+                <path d="M0 60 Q 50 10 100 40" stroke="black" stroke-width="0.2" fill="none"></path>
+            </svg>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- TEXT MARQUEE -->
+    <div class="py-6 bg-neutral-900 border-y border-white/5 overflow-hidden relative z-10">
+        <div class="marquee-container">
+            <div class="marquee-track text-3xl md:text-4xl font-display font-semibold text-neutral-600 select-none">
+                <span>GENERATIVE AI FILM • AI GDP VISUALIZER • AI PHYSICS • NEURAL NETWORKS • SYNTHETIC MEDIA • </span>
+                <span>GENERATIVE AI FILM • AI GDP VISUALIZER • AI PHYSICS • NEURAL NETWORKS • SYNTHETIC MEDIA • </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPS SECTION -->
+    <section class="max-w-7xl mx-auto py-24 px-6 relative z-10" id="apps">
+        <div class="flex flex-col md:flex-row border-b border-white/10 pb-8 mb-16 items-end justify-between hover-trigger">
+            <h2 class="text-4xl md:text-5xl font-serif text-white tracking-tight group hover:text-[#E60000] transition-colors duration-500">
+                AI Applications
+            </h2>
+            <p class="text-neutral-400 mt-4 md:mt-0 font-light">Interactive simulations &amp; visualizations.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="apps-grid">
+            <!-- App Card Component -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://us-gdp-2024-visualizer.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/KYSpVbpb/15701764934248_pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                            <div class="bg-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform">
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">US GDP Visualizer</h3>
+                        <span class="text-neutral-500 text-xs truncate">us-gdp-2024-visualizer.vercel.app</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://big-tech-financial-analysis-q3-2025.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/1zSdYP4M/15741764936106-pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                            <div class="bg-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform">
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">Big Tech Analysis</h3>
+                        <span class="text-neutral-500 text-xs truncate">big-tech-financial-analysis-q3-2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://pbr-ray-tracing-sim.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/5tmRhGFr/%E6%88%AA%E5%B1%8F2025_12_06_%E4%B8%8A%E5%8D%881_11_22.png?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                            <div class="bg-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform">
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">Ray Tracing Sim</h3>
+                        <span class="text-neutral-500 text-xs truncate">pbr-ray-tracing-sim.vercel.app</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://neon-midnight-vaporwave-run.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/vmF2jy2s/15691764933548_pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                            <div class="bg-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform">
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">Neon Parkour</h3>
+                        <span class="text-neutral-500 text-xs truncate">neon-midnight-vaporwave-run</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://arix-signature-christmas-tree.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/Bv97y37D/15791764938286_pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                            <div class="bg-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform">
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">Xmas Tree Sim</h3>
+                        <span class="text-neutral-500 text-xs truncate">arix-signature-christmas-tree</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://alpha-quant-six.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/g0Ft5pt0/15731764935853_pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                            <div class="bg-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform">
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">Alpha Quant</h3>
+                        <span class="text-neutral-500 text-xs truncate">alpha-quant-six.vercel.app</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden Apps -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 hidden" id="hidden-apps">
+            <!-- Card 7 -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://radio-globe-3-d.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/DzkpDhpw/15771764937190_pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">Radio Globe</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 8 -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://kepler-s-chaos-saturn-hand-control.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/zfZ2MN2B/15751764936552_pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">Kepler Chaos</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 9 -->
+            <div class="tilt-wrapper hover-trigger">
+                <div class="tilt-card glass-card rounded-xl overflow-hidden h-full flex flex-col group relative">
+                    <a href="https://j-a-r-v-i-s-holographic-interface-e.vercel.app" target="_blank" class="block relative aspect-[4/3] bg-neutral-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/JzLB24Cr/Wechat-IMG1853.jpg?w=800&amp;q=80" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="App">
+                    </a>
+                    <div class="p-5 border-t border-white/5 flex-grow flex flex-col justify-end bg-white/[0.01]">
+                        <h3 class="text-white text-lg font-semibold mb-1 tilt-inner">Jarvis UI</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <button onclick="document.getElementById('hidden-apps').classList.remove('hidden'); this.style.display='none'" class="group hover-trigger inline-flex items-center gap-2 border border-white/20 px-8 py-3 rounded-full hover:bg-white hover:text-black transition-colors duration-300">
+                <span class="text-xs font-bold uppercase tracking-widest">Load More</span>
+                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- IMAGE SCROLL SECTION -->
+    <section class="py-24 bg-black border-y border-[#FFD700] overflow-hidden relative shadow-[0_0_40px_rgba(255,215,0,0.15)] z-20">
+        <div class="marquee-container">
+            <div class="marquee-track" style="animation-duration: 40s;">
+                <img src="https://i.postimg.cc/CKFPL4yr/bei-jing-tu01.jpg" class="h-48 md:h-60 w-auto object-contain hover:scale-105 transition-transform" loading="lazy">
+                <img src="https://i.postimg.cc/wB6fTkKf/bei-jing-tu02.jpg" class="h-48 md:h-60 w-auto object-contain hover:scale-105 transition-transform" loading="lazy">
+                <img src="https://i.postimg.cc/3wKSJZMb/bei-jing-tu03.jpg" class="h-48 md:h-60 w-auto object-contain hover:scale-105 transition-transform" loading="lazy">
+                <img src="https://i.postimg.cc/cJs94cqb/bei-jing-tu04.jpg" class="h-48 md:h-60 w-auto object-contain hover:scale-105 transition-transform" loading="lazy">
+                <img src="https://i.postimg.cc/5tx7Nmcr/bei-jing-tu05.jpg" class="h-48 md:h-60 w-auto object-contain hover:scale-105 transition-transform" loading="lazy">
+                <img src="https://i.postimg.cc/MGWPKYkC/bei-jing-tu06.jpg" class="h-48 md:h-60 w-auto object-contain hover:scale-105 transition-transform" loading="lazy">
+                <img src="https://i.postimg.cc/CKFPL4yr/bei-jing-tu01.jpg" class="h-48 md:h-60 w-auto object-contain" loading="lazy">
+                <img src="https://i.postimg.cc/wB6fTkKf/bei-jing-tu02.jpg" class="h-48 md:h-60 w-auto object-contain" loading="lazy">
+                <img src="https://i.postimg.cc/3wKSJZMb/bei-jing-tu03.jpg" class="h-48 md:h-60 w-auto object-contain" loading="lazy">
+            </div>
+        </div>
+        <div class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent z-10"></div>
+        <div class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent z-10"></div>
+    </section>
+
+    <!-- FILMS SECTION -->
+    <section class="py-24 px-6 bg-[#050505] relative z-10" id="films">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row border-b border-white/10 pb-8 mb-12 items-end justify-between">
+                <h2 class="text-4xl md:text-5xl font-serif text-white tracking-tight">AI Filmography</h2>
+                <p class="text-neutral-400 mt-4 md:mt-0 font-light">Storytelling evolved.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Film 1 -->
+                <div class="group relative hover-trigger tilt-wrapper">
+                    <a href="https://www.youtube.com/watch?v=c_C-bIEoUTA" target="_blank" class="tilt-card block relative rounded-xl overflow-hidden border border-white/10">
+                        <img src="https://i.postimg.cc/v8kFGJcr/17951765174383-pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full aspect-video object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                                <i data-lucide="play" class="fill-black text-black ml-1"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 w-full p-6 bg-gradient-to-t from-black/90 to-transparent">
+                            <h3 class="text-2xl font-serif text-white tilt-inner">The Digital Horizon</h3>
+                            <p class="text-sm text-neutral-300">2023 • Short Film</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Film 2 -->
+                <div class="group relative hover-trigger tilt-wrapper">
+                    <a href="https://www.youtube.com/watch?v=bqvKU36P84I" target="_blank" class="tilt-card block relative rounded-xl overflow-hidden border border-white/10">
+                        <img src="https://i.postimg.cc/KcwSm6R7/17991765174496-pic.jpg?w=800&amp;q=80" loading="lazy" class="w-full aspect-video object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                                <i data-lucide="play" class="fill-black text-black ml-1"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 w-full p-6 bg-gradient-to-t from-black/90 to-transparent">
+                            <h3 class="text-2xl font-serif text-white tilt-inner">Synthetic Memories</h3>
+                            <p class="text-sm text-neutral-300">2024 • Experimental</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center">
+                <a href="https://www.youtube.com/@X_tra.AI0001" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-[#E60000] text-white rounded-full font-medium hover:bg-white hover:text-[#E60000] transition-colors duration-300 hover-trigger">
+                    <i data-lucide="youtube"></i>
+                    <span>Visit YouTube Channel</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 text-center border-t border-white/10 relative z-10">
+        <h2 class="font-serif text-3xl text-white mb-8">Connor Pu</h2>
+        <div class="flex justify-center gap-8 mb-8">
+            <a href="#" class="hover:text-white text-neutral-500 transition-colors"><i data-lucide="youtube"></i></a>
+            <a href="#" class="hover:text-white text-neutral-500 transition-colors"><i data-lucide="twitter"></i></a>
+        </div>
+        <p class="text-neutral-600 text-sm">© 2025 Connor Pu. All Rights Reserved.</p>
+    </footer>
+
+    <!-- OPTIMIZED LOGIC -->
+    <script>
+        lucide.createIcons();
+
+        // Cached Selectors
+        const cursor = document.querySelector('.cursor-dot');
+        const trailWrapper = document.querySelector('.trail-img-wrapper');
+        const trailImg = document.querySelector('.trail-img');
+        const tiltWrappers = document.querySelectorAll('.tilt-wrapper');
+
+        // GSAP Quick Setters for Performance
+        const xTo = gsap.quickTo(cursor, "x", {duration: 0.1, ease: "power2.out"});
+        const yTo = gsap.quickTo(cursor, "y", {duration: 0.1, ease: "power2.out"});
+        const xTrail = gsap.quickTo(trailWrapper, "x", {duration: 0.4, ease: "power2.out"});
+        const yTrail = gsap.quickTo(trailWrapper, "y", {duration: 0.4, ease: "power2.out"});
+
+        // Optimized Mouse Move
+        window.addEventListener('mousemove', (e) => {
+            xTo(e.clientX);
+            yTo(e.clientY);
+            if(trailWrapper.style.opacity > 0) {
+                 xTrail(e.clientX);
+                 yTrail(e.clientY);
+            }
+        });
+
+        // Hover Detection
+        document.body.addEventListener('mouseover', (e) => {
+            if(e.target.closest('.hover-trigger')) {
+                document.body.classList.add('hovering');
+            } else {
+                document.body.classList.remove('hovering');
+            }
+        });
+
+        // Timeline Image Trail
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const url = item.getAttribute('data-img');
+                if(url) {
+                    trailImg.src = url;
+                    gsap.to(trailWrapper, {opacity: 1, scale: 1, duration: 0.3});
+                    xTrail(window.event.clientX);
+                    yTrail(window.event.clientY);
+                }
+            });
+            item.addEventListener('mouseleave', () => {
+                gsap.to(trailWrapper, {opacity: 0, scale: 0.8, duration: 0.3});
+            });
+        });
+
+        // OPTIMIZED TILT EFFECT
+        tiltWrappers.forEach(wrapper => {
+            const card = wrapper.querySelector('.tilt-card');
+            let rect;
+
+            wrapper.addEventListener('mouseenter', () => {
+                rect = wrapper.getBoundingClientRect();
+                card.style.transition = 'none'; 
+            });
+
+            wrapper.addEventListener('mousemove', (e) => {
+                if (!rect) return;
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xPct = (x / rect.width - 0.5) * 15;
+                const yPct = (y / rect.height - 0.5) * -15;
+
+                card.style.transform = `rotateY(${xPct}deg) rotateX(${yPct}deg)`;
+            });
+
+            wrapper.addEventListener('mouseleave', () => {
+                card.style.transition = 'transform 0.5s ease-out';
+                card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                rect = null;
+            });
+        });
+    </script>
+</body></html>

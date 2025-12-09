@@ -1,0 +1,868 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connor Pu - X-tra.AI</title>
+
+    <!-- Core Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+      /* Global Optimization */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #050505;
+        color: #ffffff;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Fonts */
+      .font-playfair { font-family: 'Playfair Display', serif; }
+      .font-geist { font-family: 'Geist', sans-serif; }
+      .font-hand { font-family: 'Caveat', cursive; }
+      .font-display { font-family: 'Space Grotesk', sans-serif; }
+
+      /* GPU Promotion */
+      .gpu-accelerated {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+      }
+
+      /* Animations */
+      @keyframes slideInBlur {
+        0% { opacity: 0; transform: translateY(32px); filter: blur(4px); }
+        100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+      }
+
+      @keyframes scaleInBlur {
+        0% { opacity: 0; transform: scale(0.5); filter: blur(8px); }
+        100% { opacity: 1; transform: scale(1); filter: blur(0); }
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(var(--tw-rotate)); }
+        50% { transform: translateY(-15px) rotate(var(--tw-rotate)); }
+      }
+
+      @keyframes float-delayed {
+        0%, 100% { transform: translateY(0) rotate(var(--tw-rotate)); }
+        50% { transform: translateY(-10px) rotate(var(--tw-rotate)); }
+      }
+
+      @keyframes pulse-glow {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.1); }
+      }
+
+      .bg-glow { animation: pulse-glow 10s ease-in-out infinite; }
+      .animate-float { animation: float 8s ease-in-out infinite; }
+      .animate-float-delayed { animation: float-delayed 9s ease-in-out infinite reverse; }
+
+      /* Hero Title Stroke */
+      .hero-title-stroke {
+        -webkit-text-stroke: 1.5px #000000;
+        text-shadow: 
+          -1px -1px 0 #000,
+          1px -1px 0 #000,
+          -1px 1px 0 #000,
+          1px 1px 0 #000,
+          -1px 0 0 #000,
+          1px 0 0 #000,
+          0 -1px 0 #000,
+          0 1px 0 #000;
+      }
+
+      /* Cursor */
+      @media (hover: hover) {
+        body { cursor: none; }
+        a, button, .group, [role="button"], .hoverable { cursor: none !important; }
+
+        .cursor-dot {
+          position: fixed;
+          top: 0; left: 0;
+          width: 24px; height: 24px;
+          background-color: white;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9999;
+          mix-blend-mode: difference;
+        }
+        body.hovering .cursor-dot {
+          width: 64px; height: 64px;
+        }
+      }
+      @media (hover: none) {
+        .cursor-dot { display: none; }
+      }
+
+      /* Sections & Reveal */
+      .reveal-item {
+        opacity: 0;
+        transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      .reveal-item:not(.active) {
+        will-change: transform, opacity;
+      }
+      .reveal-item.fade-up { transform: translateY(60px); }
+      .reveal-item.fade-up.active { opacity: 1; transform: translateY(0); }
+      .reveal-item.fade-scale { transform: scale(0.95); filter: blur(10px); }
+      .reveal-item.fade-scale.active { opacity: 1; transform: scale(1); filter: blur(0); }
+
+      /* Accordion */
+      .accordion-container {
+        display: flex;
+        height: 70vh;
+        gap: 1rem;
+      }
+      .accordion-item {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        transition: flex 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        border-radius: 12px;
+      }
+      .accordion-item:hover {
+        will-change: flex;
+      }
+      .accordion-item:hover { flex: 3; }
+      .accordion-img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        position: absolute; inset: 0;
+      }
+      .accordion-text {
+        position: absolute;
+        bottom: 2rem; left: 2rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s 0.2s;
+        white-space: nowrap;
+      }
+      .accordion-item:hover .accordion-text {
+        opacity: 1; transform: translateY(0);
+      }
+
+      /* Video Expand */
+      .video-expand-wrapper {
+        width: 70%;
+        margin: 0 auto;
+        height: 70vh;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.1s linear; 
+      }
+
+      /* Tilt 3D */
+      .tilt-card {
+        transform-style: preserve-3d;
+      }
+      .tilt-inner { transform: translateZ(40px); }
+
+      /* Liquid Effect */
+      .liquid-section {
+        position: relative;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .liquid-container {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        aspect-ratio: 5/7;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 0.5rem;
+        transform: translateZ(0); 
+      }
+      .liquid-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: url('#liquid-filter') brightness(1.2);
+        transform: scale(1.0);
+        transition: transform 0.3s ease;
+      }
+      #liquid-trigger:hover .liquid-img {
+        will-change: transform;
+      }
+
+      /* Noise */
+      .noise-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 90;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      img {
+        filter: brightness(1.15);
+        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
+        backface-visibility: hidden;
+      }
+      .group:hover img, .hoverable:hover img {
+        transform: scale(1.06);
+        filter: brightness(1.3);
+      }
+      .liquid-container img:hover { transform: scale(1.0) !important; }
+    </style>
+</head>
+
+<body class="text-white antialiased min-h-screen flex flex-col selection:bg-lime-300 selection:text-black text-lg font-medium relative">
+    
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+
+    <!-- SVG Filters -->
+    <svg class="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
+      <defs>
+        <filter id="liquid-filter" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence id="turb" type="turbulence" baseFrequency="0.002 0.002" numOctaves="2" result="noise" seed="1"></feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+        </filter>
+        <filter id="pencil-texture">
+          <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="3" result="noise"></feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"></feDisplacementMap>
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Backgrounds -->
+    <div class="fixed top-0 w-full h-screen -z-10 pointer-events-none">
+      <div id="unicorn-bg" class="absolute w-full h-full left-0 top-0 -z-10" data-us-project="2IcJ39Gx68KiPG1qlgj8"></div>
+    </div>
+    <script defer="" src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js" onload="UnicornStudio.init()"></script>
+
+    <!-- Ambient Glow -->
+    <div class="fixed top-0 left-0 w-full h-screen overflow-hidden pointer-events-none z-0">
+      <div class="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-lime-900/20 rounded-full blur-[80px] bg-glow"></div>
+      <div class="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] bg-purple-900/20 rounded-full blur-[80px] bg-glow" style="animation-delay: -5s;"></div>
+    </div>
+
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar" class="fixed top-0 left-0 h-[3px] bg-white z-[100] w-full transition-transform duration-100 ease-linear shadow-[0_0_10px_white] origin-left scale-x-0"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed flex md:px-10 backdrop-blur-sm animate-[slideInBlur_0.8s_ease-out_0.2s_forwards] z-50 bg-gradient-to-b from-black/40 to-transparent opacity-0 w-full pt-5 pr-6 pb-5 pl-6 top-0 left-0 items-center justify-between">
+      <div class="flex items-center gap-8">
+        <a href="index.html" class="flex items-center gap-2 group hoverable">
+          <span class="group-hover:text-white transition-colors text-3xl font-semibold text-white tracking-tight font-playfair drop-shadow-md">
+            Connor Pu
+          </span>
+        </a>
+      </div>
+      
+      <div class="hidden md:flex items-center gap-5">
+        <!-- Nav Buttons -->
+        <a href="ai-apps.html" class="relative inline-flex h-11 overflow-hidden rounded-full p-[1px] hoverable group transition-all duration-500 ease-out hover:scale-105 active:scale-95">
+          <span class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FFD700_0%,#FF8C00_50%,#FFD700_100%)]"></span>
+          <div class="inline-flex h-full w-full items-center justify-center rounded-full bg-[#050505] px-6 backdrop-blur-3xl group-hover:bg-[#0a0a0a] transition-colors">
+            <span class="text-xs font-medium text-white/90 group-hover:text-white transition-colors whitespace-nowrap tracking-wider">AI APP &amp; AI FILM</span>
+          </div>
+        </a>
+        <a href="investment-insight.html" class="relative inline-flex h-11 overflow-hidden rounded-full p-[1px] hoverable group transition-all duration-500 ease-out hover:scale-105 active:scale-95">
+          <span class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FFD700_0%,#FF8C00_50%,#FFD700_100%)]"></span>
+          <div class="inline-flex h-full w-full items-center justify-center rounded-full bg-[#050505] px-6 backdrop-blur-3xl group-hover:bg-[#0a0a0a] transition-colors">
+            <span class="text-xs font-medium text-white/90 group-hover:text-white transition-colors whitespace-nowrap tracking-wider">AI INVESTMENT INSIGHT</span>
+          </div>
+        </a>
+        <a href="declaration.html" class="relative inline-flex h-11 overflow-hidden rounded-full p-[1px] hoverable group transition-all duration-500 ease-out hover:scale-105 active:scale-95">
+          <span class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#FFD700_0%,#FF8C00_50%,#FFD700_100%)]"></span>
+          <div class="inline-flex h-full w-full items-center justify-center rounded-full bg-[#050505] px-6 backdrop-blur-3xl group-hover:bg-[#0a0a0a] transition-colors">
+            <span class="text-xs font-medium text-white/90 group-hover:text-white transition-colors whitespace-nowrap tracking-wider">MY DECLARATION</span>
+          </div>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="relative flex flex-col justify-center items-center min-h-[90vh] w-full pt-10 overflow-hidden">
+      <div class="z-40 text-center relative pointer-events-none select-none px-4">
+        <h1 class="hero-title-stroke text-[14vw] md:text-[8rem] lg:text-[10rem] leading-[0.8] animate-[slideInBlur_1s_ease-out_0.5s_forwards] text-white tracking-tighter font-playfair opacity-0 mb-4 drop-shadow-[0_0_25px_rgba(255,255,255,0.4)] font-bold">
+          Connor Pu
+        </h1>
+        <div class="animate-[slideInBlur_1s_ease-out_0.8s_forwards] opacity-0 flex justify-center items-center mt-4">
+          <p class="font-playfair italic text-2xl md:text-4xl text-white tracking-wide font-semibold drop-shadow-md">
+            — Founder of X-tra.AI
+          </p>
+        </div>
+      </div>
+
+      <!-- Floating Images -->
+      <div class="w-full h-full z-20 pointer-events-auto absolute top-0 right-0 bottom-0 left-0">
+         <!-- Left Image: Moved down to top-[14%] to clear navbar -->
+        <div class="absolute top-[14%] left-[5%] md:top-[16%] md:left-[22%] w-32 md:w-56 aspect-square -rotate-12 animate-float hoverable gpu-accelerated">
+          <div class="w-full h-full overflow-hidden rounded-md border border-white/30 bg-neutral-900 opacity-0 animate-[scaleInBlur_1.2s_ease-out_0.2s_forwards] shadow-2xl transition-transform hover:scale-110">
+            <img src="https://i.postimg.cc/15FKq9qk/18291765176719_pic.jpg?w=800&amp;q=80" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <!-- Right Image: Moved down to top-[16%] to clear navbar -->
+        <div class="absolute top-[16%] right-[8%] md:top-[18%] md:right-[22%] w-32 md:w-52 aspect-square rotate-12 animate-float hoverable gpu-accelerated delay-75">
+          <div class="w-full h-full overflow-hidden rounded-md border border-white/30 bg-neutral-900 opacity-0 animate-[scaleInBlur_1.2s_ease-out_0.6s_forwards] shadow-2xl transition-transform hover:scale-110">
+            <img src="https://i.postimg.cc/XY0XpxVN/18651765187692_pic_hd.png?w=800&amp;q=80" class="w-full h-full object-cover">
+          </div>
+        </div>
+        
+        <div class="absolute top-[40%] right-[2%] md:top-[40%] md:right-[15%] w-24 md:w-40 aspect-[3/4] rotate-6 animate-float-delayed hoverable gpu-accelerated" style="animation-delay: -4s;">
+          <div class="w-full h-full overflow-hidden rounded-md border border-white/30 bg-neutral-900 opacity-0 animate-[scaleInBlur_1.2s_ease-out_0.7s_forwards] shadow-2xl transition-transform hover:scale-110">
+            <img src="https://i.postimg.cc/gcnsGyc4/18301765176733_pic.jpg?w=800&amp;q=80" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div class="absolute bottom-[5%] left-[5%] md:bottom-[8%] md:left-[5%] w-48 md:w-80 aspect-[4/5] -rotate-6 animate-float-delayed hoverable gpu-accelerated" style="animation-delay: -1s;">
+          <div class="w-full h-full overflow-hidden rounded-md border border-white/30 bg-neutral-900 opacity-0 animate-[scaleInBlur_1.2s_ease-out_0.8s_forwards] shadow-2xl transition-transform hover:scale-110">
+            <img src="https://i.postimg.cc/Yqnckp37/Connor01.jpg?w=800&amp;q=80" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div class="absolute bottom-[8%] right-[5%] md:bottom-[10%] md:right-[5%] w-40 md:w-64 aspect-video rotate-3 animate-float hoverable gpu-accelerated" style="animation-delay: -2s;">
+          <div class="w-full h-full overflow-hidden rounded-md border border-white/30 bg-neutral-900 opacity-0 animate-[scaleInBlur_1.2s_ease-out_1.0s_forwards] shadow-2xl transition-transform hover:scale-110">
+            <img src="https://i.postimg.cc/QtBfYcFH/18661765188248-pic-hd.png?w=800&amp;q=80" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div class="absolute bottom-[2%] left-[50%] -translate-x-1/2 w-28 md:w-44 aspect-square rotate-6 animate-float-delayed hoverable gpu-accelerated" style="animation-delay: -3s;">
+          <div class="w-full h-full overflow-hidden rounded-md border border-white/30 bg-neutral-900 opacity-0 animate-[scaleInBlur_1.2s_ease-out_1.2s_forwards] shadow-2xl transition-transform hover:scale-110">
+            <img src="https://i.postimg.cc/ZYB8GTVT/18281765176693_pic.jpg?w=800&amp;q=80" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="relative" id="content-wrapper">
+      <!-- SECTION 1: WHO AM I -->
+      <section class="w-full h-[220vh] relative" id="who-am-i">
+        <div class="sticky flex overflow-hidden -translate-y-16 w-full h-screen top-0 items-center justify-center">
+          <div id="who-bg" class="absolute left-0 w-full top-1/2 -translate-y-1/2 h-[70vh] bg-[linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] opacity-0 transition-opacity duration-100 ease-linear pointer-events-none z-0"></div>
+          <div class="flex flex-col z-10 opacity-0 w-full max-w-7xl mx-auto relative items-center gpu-accelerated" id="who-content">
+            <div class="relative mb-12 text-center">
+              <div class="inline-block relative">
+                <h2 class="text-[25vw] leading-[0.8] select-none md:text-[20rem] font-extrabold text-white tracking-tight font-geist drop-shadow-[0_0_50px_rgba(255,255,255,0.4)]">
+                  WHO
+                </h2>
+                <span class="md:right-3 md:text-5xl text-xl font-bold text-white tracking-normal font-geist absolute right-1 bottom-2 translate-x-16 translate-y-16 drop-shadow-lg">
+                  AM I ?
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: BIO -->
+      <section class="min-h-screen flex md:px-12 overflow-hidden bg-transparent w-full border-white/20 border-t pt-24 pr-6 pb-24 pl-6 relative items-center justify-center" id="bio">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 items-center">
+          <!-- Content -->
+          <div class="flex flex-col gap-10 z-10 relative">
+            <div class="reveal-item fade-up">
+              <h2 class="md:text-7xl leading-none text-5xl font-semibold text-white tracking-tight font-playfair mb-6 drop-shadow-lg">
+                I'm Connor Pu
+              </h2>
+              <div class="w-24 h-2 bg-white rounded-full shadow-[0_0_10px_white]"></div>
+            </div>
+            <div class="space-y-8">
+              <div class="reveal-item fade-up group flex items-start gap-5 hoverable">
+                <span class="text-white font-mono text-base pt-2 font-semibold">01</span>
+                <p class="md:text-3xl text-2xl font-medium text-white font-display drop-shadow-md">
+                  Learning and leveraging AI since 2023, high school
+                </p>
+              </div>
+              <div class="reveal-item fade-up group flex items-start gap-5 hoverable">
+                <span class="text-white font-mono text-base pt-2 font-semibold">02</span>
+                <p class="md:text-3xl text-2xl font-medium text-white font-display drop-shadow-md">
+                  Created 30+ AI apps &amp; websites; produced 10+ AI short films
+                </p>
+              </div>
+              <div class="reveal-item fade-up group flex items-start gap-5 hoverable">
+                <span class="text-white font-mono text-base pt-2 font-semibold">03</span>
+                <p class="md:text-3xl text-2xl font-medium text-white font-display drop-shadow-md">
+                  Authored 10+ AI × Finance trend analyses and invest actively in AI market
+                </p>
+              </div>
+              <div class="reveal-item fade-up group flex items-start gap-5 hoverable">
+                <span class="text-white font-mono text-base pt-2 font-semibold">04</span>
+                <p class="md:text-3xl text-2xl font-medium text-white font-display drop-shadow-md">
+                  Founder of X-tra.AI. Major in Finance, Minor in CS.
+                </p>
+              </div>
+            </div>
+            <div class="reveal-item fade-up mt-6 p-8 border-l-4 border-white bg-white/[0.05] rounded-r-2xl backdrop-blur-sm">
+              <p class="md:text-xl leading-relaxed text-lg font-medium italic text-white font-playfair drop-shadow-sm">
+                "My ideal is to combine my insight and experience in business finance and AI to create value."
+              </p>
+            </div>
+          </div>
+          <!-- Image with Pencil -->
+          <div class="relative w-full h-[60vh] min-h-[500px] reveal-item fade-scale">
+            <div class="group hoverable relative w-full h-full rounded-2xl overflow-hidden border-2 border-white/20 bg-neutral-900 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+              <div class="absolute inset-0 bg-neutral-800 animate-pulse z-0"></div>
+              <svg class="absolute inset-0 z-30 w-full h-full pointer-events-none" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice">
+                <path d="M 150 340 C 140 280, 180 240, 230 250 C 270 260, 280 320, 260 380 C 240 420, 170 410, 150 340" stroke="white" stroke-width="4" fill="none" filter="url(#pencil-texture)" stroke-linecap="round"></path>
+                <text x="260" y="320" fill="white" font-family="'Caveat', cursive" font-size="20" font-weight="900" transform="rotate(5 260 320)" style="text-shadow: 0 0 10px black;">
+                  I AM HERE
+                </text>
+              </svg>
+              <img src="https://i.postimg.cc/Yqnckp37/Connor01.jpg" class="relative z-10 w-full h-full object-cover object-[35%_50%]" alt="Connor Pu">
+              <div class="absolute inset-0 z-20 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 pointer-events-none"></div>
+            </div>
+            <div class="absolute bottom-20 -left-12 md:-left-24 z-40 pointer-events-none">
+              <p class="font-hand text-white text-lg md:text-2xl font-black -rotate-6 whitespace-nowrap drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
+                Godmother of Silicon Valley
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: WHAT I'VE DONE -->
+      <section class="w-full h-[220vh] relative" id="what-ive-done">
+        <div class="sticky flex overflow-hidden -translate-y-16 w-full h-screen top-0 items-center justify-center">
+          <div id="what-bg" class="absolute left-0 w-full top-1/2 -translate-y-1/2 h-[70vh] bg-[linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] opacity-0 transition-opacity duration-100 ease-linear pointer-events-none z-0"></div>
+          <div class="flex flex-col z-10 w-full max-w-7xl mx-auto relative items-center opacity-0 gpu-accelerated" id="what-content">
+            <div class="relative mb-12 text-center">
+              <div class="inline-block relative">
+                <h2 class="text-[25vw] leading-[0.8] select-none md:text-[20rem] font-extrabold text-white tracking-tight font-geist drop-shadow-[0_0_50px_rgba(255,255,255,0.4)]">
+                  WHAT
+                </h2>
+                <span class="md:right-3 md:text-5xl text-xl font-bold text-white tracking-normal font-geist absolute right-1 bottom-2 translate-x-16 translate-y-16 drop-shadow-lg">
+                  I'VE DONE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: WORK -->
+      <section class="md:px-12 bg-transparent border-white/20 border-t mb-0 pt-32 pr-6 pb-48 pl-6 relative" id="work">
+        <div class="absolute top-10 left-6 md:left-12 z-20">
+          <p class="text-white font-display tracking-tighter text-xl md:text-4xl font-black uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.8)] animate-pulse leading-none">
+            Create and Work with AI. Since 2023
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <!-- Work 1 -->
+          <div class="group hoverable">
+            <div class="mb-10">
+              <div class="uppercase text-sm font-semibold text-white tracking-widest opacity-80 mb-1 shadow-black">
+                AI applications
+              </div>
+              <!-- Fixed: Removed data-counted="true" to allow animation to trigger -->
+              <div class="md:text-7xl text-6xl font-bold text-white font-display drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+                <span class="counter" data-target="30">0</span>+
+              </div>
+            </div>
+            <div class="reveal-item fade-scale aspect-[3/4] rounded-lg overflow-hidden mb-6 relative border border-white/20">
+              <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&amp;w=2600&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Fluidity">
+              <div class="group-hover:bg-transparent transition-colors bg-black/20 absolute top-0 right-0 bottom-0 left-0"></div>
+            </div>
+            <h3 class="text-2xl font-bold text-white drop-shadow-lg">AI APP/FILM</h3>
+            <p class="text-sm font-medium text-white">Leverage AI tools to generated value</p>
+          </div>
+          <!-- Work 2 -->
+          <div class="md:mt-24 group hoverable">
+            <div class="mb-10">
+              <div class="uppercase text-sm font-semibold text-white tracking-widest opacity-80 mb-1 shadow-black">
+                AI investing insights
+              </div>
+              <!-- Fixed: Removed data-counted="true" to allow animation to trigger -->
+              <div class="text-6xl md:text-7xl font-display font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+                <span class="counter" data-target="15">0</span>+
+              </div>
+            </div>
+            <div class="reveal-item fade-scale aspect-[3/4] rounded-lg overflow-hidden mb-6 relative">
+              <img src="https://images.unsplash.com/photo-1506729623306-b5a934d88b53?q=80&amp;w=2670&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover" alt="Work 2">
+              <div class="group-hover:bg-transparent transition-colors bg-black/20 absolute top-0 right-0 bottom-0 left-0"></div>
+            </div>
+            <h3 class="text-2xl font-bold text-white drop-shadow-lg">AI Investment Insights</h3>
+            <p class="text-sm font-medium text-white">AI-related financial market research</p>
+          </div>
+          <!-- Work 3 -->
+          <div class="group hoverable tilt-card-wrapper">
+            <div class="mb-10">
+              <div class="uppercase text-sm font-semibold text-white tracking-widest opacity-80 mb-1 shadow-black">
+                AI FILM AWARDS
+              </div>
+              <!-- Fixed: Removed data-counted="true" to allow animation to trigger -->
+              <div class="md:text-7xl text-6xl font-bold text-white font-display drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+                <span class="counter" data-target="10">0</span>+
+              </div>
+            </div>
+            <div class="tilt-card aspect-[3/4] rounded-lg mb-6 bg-neutral-900 border border-white/20 relative overflow-hidden flex items-center justify-center" style="transform: rotateX(0deg) rotateY(0deg);">
+              <img src="https://images.unsplash.com/photo-1604871000636-074fa5117945?q=80&amp;w=2487&amp;auto=format&amp;fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Work 3">
+              <div class="tilt-inner text-center z-20 mix-blend-difference">
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-white drop-shadow-lg">My Declaration</h3>
+            <p class="text-sm font-medium text-white">Personal ideas on AI &amp; future</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: STICKY STACK -->
+      <section class="md:px-12 border-white/20 border-t pt-32 pr-6 pb-32 pl-6 relative bg-transparent">
+        <div class="max-w-7xl mx-auto sticky-wrapper gap-20 flex-col md:flex-row flex">
+          <div class="md:w-1/3 sticky-content sticky h-fit pb-20 top-[20vh]">
+            <h2 class="md:text-6xl leading-[0.9] text-4xl font-semibold text-white tracking-tight font-display mb-8 drop-shadow-lg">
+              Apps &amp; Webs crated with AI
+            </h2>
+            <p class="leading-relaxed text-lg font-medium text-white mb-8 drop-shadow-md">
+              20+ examples of how to leverage AI —— all generated, crated by ME &amp; AI
+            </p>
+          </div>
+          <div class="md:w-2/3 flex flex-col gap-32 pt-20">
+            <div class="reveal-item fade-scale aspect-[16/9] bg-neutral-900 rounded-lg overflow-hidden relative group border border-white/10">
+              <img src="https://i.postimg.cc/5tmRhGFr/jie-ping2025-12-06-shang-wu1-11-22.png?w=800&amp;q=80" class="w-full h-full object-cover transition-opacity duration-700">
+            </div>
+            <div class="reveal-item fade-scale aspect-[16/9] bg-neutral-900 rounded-lg overflow-hidden relative group border border-white/10">
+              <img src="https://i.postimg.cc/1zSdYP4M/15741764936106-pic.jpg?w=800&amp;q=80" class="w-full h-full object-cover transition-opacity duration-700">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: ACCORDION -->
+      <section class="md:px-12 bg-transparent border-white/20 border-t pt-32 pr-6 pb-32 pl-6 relative">
+        <div class="mb-12 flex justify-between items-end">
+          <h3 class="text-4xl font-semibold text-white tracking-tight font-display drop-shadow-lg">
+            AI Investment Insights
+          </h3>
+        </div>
+        <div class="accordion-container flex-col md:flex-row">
+          <!-- Item 1 -->
+          <div class="accordion-item group hoverable border border-white/10">
+            <img src="https://i.postimg.cc/4dXSdDMg/18171765176367_pic_hd.png" class="accordion-img" alt="AI Bubble Debate">
+            <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+            <div class="accordion-text">
+              <h4 class="text-2xl font-bold text-white drop-shadow-lg">AI Bubble Debate</h4>
+            </div>
+          </div>
+          <!-- Item 2 -->
+          <div class="accordion-item group hoverable border border-white/10">
+            <img src="https://i.postimg.cc/hGTkhbtg/18071765176048_pic.jpg" class="accordion-img" alt="AI Market Trends">
+            <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+            <div class="accordion-text">
+              <h4 class="text-2xl font-bold text-white drop-shadow-lg">AI Market Trends</h4>
+            </div>
+          </div>
+          <!-- Item 3 -->
+          <div class="accordion-item group hoverable border border-white/10">
+            <img src="https://i.postimg.cc/9FkKpN4D/18101765176098_pic.jpg" class="accordion-img" alt="GPUs &amp; Cloud companies">
+            <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+            <div class="accordion-text">
+              <h4 class="text-2xl font-bold text-white drop-shadow-lg">GPUs &amp; Cloud companies</h4>
+            </div>
+          </div>
+          <!-- Item 4 -->
+          <div class="accordion-item group hoverable border border-white/10">
+            <img src="https://i.postimg.cc/DfjMvYPc/18381765176884_pic.jpg" class="accordion-img" alt="US &amp; China LLMs">
+            <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+            <div class="accordion-text">
+              <h4 class="text-2xl font-bold text-white drop-shadow-lg">US &amp; China LLMs</h4>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: VIDEO EXPAND -->
+      <section class="overflow-hidden flex flex-col bg-transparent border-white/20 border-t pt-32 pb-32 relative items-center">
+        <div class="text-center mb-16 px-4 reveal-item fade-up active">
+          <p class="md:text-4xl text-xl font-medium italic text-neutral-50 font-playfair drop-shadow-md">
+            High School Graduation Speech
+          </p>
+          <p class="md:text-2xl text-lg font-medium text-white/90 tracking-wide font-geist mt-6">— Feb 2025: 10+ minute original, unscripted senior speech on AI bubble &amp; trends.</p>
+          <a href="https://x.com/alpha765166467/status/1997950073356087499?s=46" target="_blank" class="inline-block mt-4 text-white underline underline-offset-4 hover:text-gray-300 transition-colors break-all max-w-2xl mx-auto">
+            https://x.com/alpha765166467/status/1997950073356087499?s=46
+          </a>
+        </div>
+        <a href="https://x.com/alpha765166467/status/1997950073356087499?s=46" target="_blank" id="video-expand" class="video-expand-wrapper block group hoverable border-2 border-white/20 cursor-pointer">
+          <div class="absolute inset-0 bg-black/40 z-10 group-hover:bg-transparent transition-colors duration-500"></div>
+          <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+            <div class="w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/30 group-hover:scale-150 group-hover:opacity-0 transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white w-8 h-8">
+                <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-purple-600/30 to-pink-600/30 mix-blend-overlay pointer-events-none z-10"></div>
+          <img src="https://i.postimg.cc/63JCh53y/Gemini-Generated-Image-anqmz3anqmz3anqm.png?w=800&amp;q=80" class="w-full h-full object-cover" alt="Video Thumb">
+        </a>
+      </section>
+
+      <!-- SECTION: LIQUID -->
+      <section class="liquid-section pt-16 pb-16" id="liquid">
+        <div class="flex flex-col md:flex-row md:gap-24 w-full max-w-7xl mx-auto pr-6 pl-6 gap-x-12 gap-y-12 items-center justify-center">
+          <div class="text-center md:text-right max-w-sm order-2 md:order-1">
+            <h2 class="md:text-6xl text-5xl font-semibold text-white tracking-tight font-playfair mb-8 drop-shadow-lg">
+              My Declaration
+            </h2>
+            <div class="flex flex-col gap-1.5 text-base md:text-lg font-medium text-white leading-relaxed">
+              <p>Who am I?</p>
+              <p>What kind of person am I?</p>
+              <p>In what era do I live?</p>
+              <p>What are the trends in this era?</p>
+              <p>What should I do?</p>
+              <p>What ideals do I hold?</p>
+              <p>And what kind of future am I striving for?</p>
+            </div>
+          </div>
+          <div class="liquid-container order-1 md:order-2 hoverable" id="liquid-trigger">
+            <img src="https://i.postimg.cc/zBNv2L13/Xnip2025-12-08-02-22-04.jpg?w=800&amp;q=80" class="liquid-img object-cover w-full h-auto" alt="Liquid">
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <section class="min-h-[80vh] bg-[#050505] relative border-t border-white/20 flex flex-col items-center justify-center overflow-hidden py-24">
+        <div class="relative z-10 text-center w-full max-w-6xl px-6">
+            <h2 class="text-6xl md:text-8xl font-display tracking-tighter mb-20 font-semibold text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                Connect
+            </h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32 w-full">
+                <!-- YouTube -->
+                <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="group flex flex-col items-center gap-6 hoverable">
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:scale-110 transition-all duration-500 ease-out shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-white group-hover:text-black transition-colors duration-300 w-10 h-10 md:w-12 md:h-12">
+                           <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+                           <path d="m10 15 5-3-5-3z"></path>
+                       </svg>
+                    </div>
+                    <span class="text-white font-mono text-xs md:text-sm tracking-wide opacity-80 group-hover:opacity-100 transition-opacity border-b border-transparent group-hover:border-white/50 pb-0.5">
+                        https://www.youtube.com/@X_tra.AI0001/videos
+                    </span>
+                </a>
+                <!-- X -->
+                <a href="https://x.com/alpha765166467" target="_blank" class="group flex flex-col items-center gap-6 hoverable">
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:scale-110 transition-all duration-500 ease-out shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                       <svg viewBox="0 0 24 24" fill="currentColor" class="text-white group-hover:text-black transition-colors duration-300 w-8 h-8 md:w-10 md:h-10">
+                           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                       </svg>
+                    </div>
+                    <span class="text-white font-mono text-xs md:text-sm tracking-wide opacity-80 group-hover:opacity-100 transition-opacity border-b border-transparent group-hover:border-white/50 pb-0.5">
+                        https://x.com/alpha765166467
+                    </span>
+                </a>
+            </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Logic Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // 1. Cursor System (Optimized with throttling)
+        if (window.matchMedia('(hover: hover)').matches && window.gsap) {
+          const cursor = document.querySelector('.cursor-dot');
+          const hoverSelectors = 'a, button, .group, [role="button"], .hoverable, img';
+
+          if (cursor) {
+            gsap.set(cursor, {xPercent: -50, yPercent: -50});
+
+            let mouseX = 0, mouseY = 0;
+            let rafId = null;
+            
+            const updateCursor = () => {
+              gsap.to(cursor, { x: mouseX, y: mouseY, duration: 0.2, ease: 'power2.out', overwrite: true });
+              rafId = null;
+            };
+
+            document.addEventListener('mousemove', (e) => { 
+              mouseX = e.clientX; 
+              mouseY = e.clientY;
+              if (!rafId) {
+                rafId = requestAnimationFrame(updateCursor);
+              }
+            }, {passive: true});
+          }
+
+          if (cursor) {
+            document.querySelectorAll(hoverSelectors).forEach(el => {
+              el.addEventListener('mouseenter', () => document.body.classList.add('hovering'), {passive: true});
+              el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'), {passive: true});
+            });
+          }
+
+          // Tilt Cards
+          document.querySelectorAll('.tilt-card-wrapper').forEach(card => {
+            let ticking = false;
+            card.addEventListener('mousemove', (e) => {
+              if(!ticking) {
+                window.requestAnimationFrame(() => {
+                  const rect = card.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  const tiltX = (y - rect.height / 2) / 20;
+                  const tiltY = -(x - rect.width / 2) / 20;
+                  const inner = card.querySelector('.tilt-card');
+                  if(inner) inner.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                  ticking = false;
+                });
+                ticking = true;
+              }
+            });
+            card.addEventListener('mouseleave', () => {
+               const inner = card.querySelector('.tilt-card');
+               if(inner) inner.style.transform = `rotateX(0) rotateY(0)`;
+            });
+          });
+        }
+
+        // 2. Liquid Effect
+        const liquidTrigger = document.getElementById('liquid-trigger');
+        const turb = document.getElementById('turb');
+        let val = 0.00;
+        let target = 0.00;
+        let animationFrameId = null;
+
+        if (liquidTrigger && turb) {
+          const loopLiquid = () => {
+            val += (target - val) * 0.1;
+            turb.setAttribute('baseFrequency', `${val} ${val}`);
+            if (Math.abs(val - target) > 0.001) {
+              animationFrameId = requestAnimationFrame(loopLiquid);
+            } else {
+              turb.setAttribute('baseFrequency', `${target} ${target}`);
+              animationFrameId = null;
+            }
+          };
+          liquidTrigger.addEventListener('mouseenter', () => { 
+            target = 0.02; 
+            if(!animationFrameId) loopLiquid(); 
+          });
+          liquidTrigger.addEventListener('mouseleave', () => { 
+            target = 0.00; 
+            if(!animationFrameId) loopLiquid(); 
+          });
+        }
+
+        // 3. Intersection Observer (Refined for Counters)
+        const observerReveal = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              
+              // Animated Counter Logic
+              if (entry.target.classList.contains('counter') && !entry.target.dataset.counted) {
+                entry.target.dataset.counted = "true";
+                // Added a small random delay for "lively" feel if they appear together
+                setTimeout(() => {
+                    startCounter(entry.target);
+                }, Math.random() * 200); 
+              }
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        // Observe both reveal items and counters specifically
+        document.querySelectorAll('.reveal-item, .counter').forEach(el => observerReveal.observe(el));
+
+        function startCounter(el) {
+          const targetVal = +el.dataset.target;
+          const duration = 2000; // Slightly longer for more visual impact
+          const startTime = performance.now();
+          
+          function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Ease Out Expo for "lively" pop effect
+            const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            
+            el.innerText = Math.floor(targetVal * ease);
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                el.innerText = targetVal;
+            }
+          }
+          requestAnimationFrame(update);
+        }
+
+        // 4. Scroll Logic
+        const progressBar = document.getElementById('progress-bar');
+        const videoExpand = document.getElementById('video-expand');
+        
+        const stickySections = [
+          { sec: document.getElementById('who-am-i'), bg: document.getElementById('who-bg'), content: document.getElementById('who-content') },
+          { sec: document.getElementById('what-ive-done'), bg: document.getElementById('what-bg'), content: document.getElementById('what-content') }
+        ].filter(item => item.sec && item.bg && item.content);
+
+        let ticking = false;
+        let lastScrollTime = 0;
+        const scrollThrottle = 16;
+
+        function updateScroll() {
+          const scrollY = window.scrollY;
+          const winH = window.innerHeight;
+          const docHeight = document.documentElement.scrollHeight - winH;
+
+          if(progressBar) {
+            const progress = Math.max(0, Math.min(1, scrollY / docHeight));
+            progressBar.style.transform = `scaleX(${progress})`;
+          }
+
+          stickySections.forEach(({sec, bg, content}) => {
+            const rect = sec.getBoundingClientRect();
+            if (rect.top < winH && rect.bottom > 0) {
+               const sectionHeight = rect.height;
+               const offset = -rect.top;
+               const scrollableDistance = sectionHeight - winH;
+               let progress = 0;
+               if(scrollableDistance > 0) progress = Math.max(0, Math.min(1, offset / scrollableDistance));
+               let opacity = 0;
+               if(progress < 0.1) opacity = progress / 0.1;
+               else if(progress < 0.9) opacity = 1;
+               else opacity = 1 - ((progress - 0.9) / 0.1);
+
+               bg.style.opacity = opacity.toFixed(2);
+               content.style.opacity = opacity.toFixed(2);
+            }
+          });
+
+          if(videoExpand) {
+            const rect = videoExpand.getBoundingClientRect();
+            if(rect.top < winH && rect.bottom > 0) {
+              const center = winH / 2;
+              const elCenter = rect.top + rect.height/2;
+              const dist = Math.abs(center - elCenter);
+              const maxDist = winH/2;
+              let factor = 1 - Math.min(1, dist/maxDist);
+              let scale = 1 + (0.42 * factor);
+              videoExpand.style.transform = `scale(${scale})`;
+              videoExpand.style.borderRadius = `${20 * (1 - factor)}px`;
+            }
+          }
+          ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+          const now = performance.now();
+          if (now - lastScrollTime >= scrollThrottle && !ticking) {
+            window.requestAnimationFrame(updateScroll);
+            ticking = true;
+            lastScrollTime = now;
+          }
+        }, { passive: true });
+      });
+    </script>
+</body></html>

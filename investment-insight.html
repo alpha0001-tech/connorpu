@@ -1,0 +1,643 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connor Pu | AI Market &amp; Investment Analysis</title>
+    <!-- Dependencies: Tailwind (Utility), Lucide (Icons), GSAP (Animations) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <!-- Primary Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+
+    <!-- Additional Font Libraries included in original source -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  <link id="all-fonts-link-font-geist" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-geist">
+      .font-geist { font-family: 'Geist', sans-serif !important; }
+    </style><link id="all-fonts-link-font-playfair" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&amp;display=swap"><style id="all-fonts-style-font-playfair">
+      .font-playfair { font-family: 'Playfair Display', serif !important; }
+    </style><link id="all-fonts-link-font-instrument-serif" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-instrument-serif">
+      .font-instrument-serif { font-family: 'Instrument Serif', serif !important; }
+    </style><link id="all-fonts-link-font-merriweather" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&amp;display=swap"><style id="all-fonts-style-font-merriweather">
+      .font-merriweather { font-family: 'Merriweather', serif !important; }
+    </style><link id="all-fonts-link-font-bricolage" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-bricolage">
+      .font-bricolage { font-family: 'Bricolage Grotesque', sans-serif !important; }
+    </style><link id="all-fonts-link-font-jakarta" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-jakarta">
+      .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+    </style><link id="all-fonts-link-font-manrope" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-manrope">
+      .font-manrope { font-family: 'Manrope', sans-serif !important; }
+    </style><link id="all-fonts-link-font-space-grotesk" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-space-grotesk">
+      .font-space-grotesk { font-family: 'Space Grotesk', sans-serif !important; }
+    </style><link id="all-fonts-link-font-work-sans" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-work-sans">
+      .font-work-sans { font-family: 'Work Sans', sans-serif !important; }
+    </style><link id="all-fonts-link-font-pt-serif" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&amp;display=swap"><style id="all-fonts-style-font-pt-serif">
+      .font-pt-serif { font-family: 'PT Serif', serif !important; }
+    </style><link id="all-fonts-link-font-geist-mono" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-geist-mono">
+      .font-geist-mono { font-family: 'Geist Mono', monospace !important; }
+    </style><link id="all-fonts-link-font-space-mono" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap"><style id="all-fonts-style-font-space-mono">
+      .font-space-mono { font-family: 'Space Mono', monospace !important; }
+    </style><link id="all-fonts-link-font-quicksand" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-quicksand">
+      .font-quicksand { font-family: 'Quicksand', sans-serif !important; }
+    </style>
+    
+    <style>
+      /* Card Link Styles */
+      a.bg-white {
+        text-decoration: none;
+        display: block;
+        color: inherit;
+      }
+      a.bg-white:hover {
+        text-decoration: none;
+      }
+      
+      /* Marquee Animation */
+      .marquee-track {
+        display: flex;
+        gap: 4rem;
+        animation: marquee 40s linear infinite;
+      }
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      
+      /* Grid Background */
+      .grid-bg {
+        background-image: linear-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
+        background-size: 40px 40px;
+        position: relative;
+      }
+      
+      /* Glass Nav */
+      .glass-nav {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      
+      /* Hero Text Hover */
+      .hero-text-hover {
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+        transform-origin: left center;
+        display: inline-block;
+        will-change: transform, color;
+      }
+      .hero-text-hover:hover {
+        transform: scale(1.15) translateX(10px);
+      }
+      
+      /* Custom Cursor */
+      @media (hover: hover) {
+        body { cursor: none; }
+        a, button, .group, [role="button"], .hoverable, .hover-trigger { cursor: none !important; }
+
+        .cursor-dot {
+          position: fixed;
+          top: 0; left: 0;
+          width: 24px; height: 24px;
+          background-color: white;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9999;
+          mix-blend-mode: difference;
+        }
+        body.hovering .cursor-dot {
+          width: 64px; height: 64px;
+        }
+      }
+      @media (hover: none) {
+        .cursor-dot { display: none; }
+      }
+      
+      /* Image Zoom Effect on Hover */
+      .bg-white img, a.bg-white img {
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .bg-white:hover img, a.bg-white:hover img {
+        will-change: transform;
+      }
+      .bg-white:hover img, a.bg-white:hover img {
+        transform: scale(1.08);
+      }
+    </style>
+</head>
+
+  <body class="antialiased selection:bg-blue-600 selection:text-white">
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    
+    <!-- Background Aura -->
+    <div class="aura-background-component fixed top-0 w-full h-screen -z-10" data-alpha-mask="80" style="mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent)">
+      <div class="aura-background-component w-full absolute top-0 hue-rotate-15 saturate-150 brightness-125 h-[700px]" data-alpha-mask="80" style="mask-image: linear-gradient(transparent, black 0%, black 80%, transparent);">
+        <div class="aura-background-component top-0 w-full -z-10 absolute h-full" style="">
+          <div data-us-project="opxjeAzlg0dkUUVGEZri" class="absolute w-full h-full left-0 top-0 -z-10"></div>
+          <script type="text/javascript">
+            !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+      <div class="flex h-28 max-w-[1400px] mx-auto px-6 md:px-12 items-center justify-between">
+        <!-- Logo Text -->
+        <a href="index.html" class="text-4xl md:text-5xl text-white font-serif tracking-tight hover:scale-105 transition-transform duration-500 origin-left cursor-pointer">
+          Connor Pu
+        </a>
+
+        <!-- Gradient Buttons -->
+        <div class="hidden lg:flex items-center gap-5">
+          <!-- Button 1 -->
+          <a href="ai-apps.html" class="group relative inline-block transition-transform duration-300 hover:scale-110 active:scale-95 cursor-pointer">
+            <!-- Gradient Border -->
+            <div class="absolute -inset-[1px] rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 opacity-100 group-hover:opacity-100 group-hover:blur-[2px] transition-all duration-300"></div>
+            <!-- Inner Black Bg -->
+            <div class="relative bg-black rounded-full px-8 py-3.5 flex items-center justify-center h-full border border-black">
+              <span class="text-white text-xs font-sans font-medium tracking-[0.15em] uppercase whitespace-nowrap">
+                AI App &amp; AI Film
+              </span>
+            </div>
+          </a>
+
+          <!-- Button 2 -->
+          <a href="investment-insight.html" class="group relative inline-block transition-transform duration-300 hover:scale-110 active:scale-95 cursor-pointer">
+            <div class="absolute -inset-[1px] rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 opacity-100 group-hover:opacity-100 group-hover:blur-[2px] transition-all duration-300"></div>
+            <div class="relative bg-black rounded-full px-8 py-3.5 flex items-center justify-center h-full border border-black">
+              <span class="text-white text-xs font-sans font-medium tracking-[0.15em] uppercase whitespace-nowrap">
+                AI Investment Insight
+              </span>
+            </div>
+          </a>
+
+          <!-- Button 3 -->
+          <a href="declaration.html" class="group relative inline-block transition-transform duration-300 hover:scale-110 active:scale-95 cursor-pointer">
+            <div class="absolute -inset-[1px] rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 opacity-100 group-hover:opacity-100 group-hover:blur-[2px] transition-all duration-300"></div>
+            <div class="relative bg-black rounded-full px-8 py-3.5 flex items-center justify-center h-full border border-black">
+              <span class="text-white text-xs font-sans font-medium tracking-[0.15em] uppercase whitespace-nowrap">
+                My Declaration
+              </span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Mobile Menu -->
+        <button class="lg:hidden text-white/80 hover:text-white transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="menu" class="lucide lucide-menu w-6 h-6 stroke-[1.5]">
+            <path d="M4 5h16"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 19h16"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="flex flex-col lg:flex-row w-full min-h-screen relative z-20 border-b border-white/10 pt-24">
+      <!-- Left Content -->
+      <div class="lg:w-1/2 flex flex-col justify-center px-8 py-16 lg:px-20 border-r border-white/10 bg-transparent">
+        <div class="flex flex-col items-start gap-1">
+          <!-- Title -->
+          <h1 class="hero-text-hover text-5xl md:text-7xl font-semibold tracking-tighter text-white hover:text-blue-600 font-display uppercase hover-trigger mb-4">
+            IS AI BUBBLE?
+          </h1>
+
+          <!-- List Items -->
+          <div class="space-y-0 flex flex-col items-start">
+            <h2 class="hero-text-hover hero-q text-5xl md:text-7xl font-semibold tracking-tighter text-blue-800 hover:text-white font-display uppercase hover-trigger" style="opacity: 1;">
+              what?
+            </h2>
+            <h2 class="hero-text-hover hero-q text-5xl md:text-7xl font-semibold tracking-tighter text-blue-800 hover:text-white font-display uppercase hover-trigger" style="opacity: 1;">
+              why?
+            </h2>
+            <h2 class="hero-text-hover hero-q text-5xl md:text-7xl font-semibold tracking-tighter text-blue-800 hover:text-white font-display uppercase hover-trigger" style="opacity: 1;">
+              how?
+            </h2>
+            <h2 class="hero-text-hover hero-q text-5xl md:text-7xl font-semibold tracking-tighter text-blue-800 hover:text-white font-display uppercase hover-trigger" style="opacity: 1;">
+              when?
+            </h2>
+            <h2 class="hero-text-hover hero-q text-5xl md:text-7xl font-semibold tracking-tighter text-blue-800 hover:text-white font-display uppercase hover-trigger" style="opacity: 1;">
+              where?
+            </h2>
+            <h2 class="hero-text-hover hero-q text-5xl md:text-7xl font-semibold tracking-tighter text-blue-800 hover:text-white font-display uppercase hover-trigger" style="opacity: 1;">
+              who?
+            </h2>
+          </div>
+
+          <p class="mt-8 text-2xl md:text-4xl font-serif italic text-blue-600 hover-trigger cursor-default transform transition-transform hover:scale-105 origin-left duration-300">
+            let me explain...
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Visual - Modified to Deep Blue Gradient Block -->
+      <div class="lg:w-1/2 relative min-h-[50vh] lg:min-h-auto overflow-hidden bg-gradient-to-br from-[#0a2472] to-black grid-bg flex items-center justify-center">
+        <!-- Animated Circles -->
+        <div class="absolute z-20 w-96 h-96 border border-white/10 rounded-full flex items-center justify-center animate-[spin_60s_linear_infinite]">
+          <div class="w-64 h-64 border border-white/10 rounded-full flex items-center justify-center">
+            <div class="w-32 h-32 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm"></div>
+          </div>
+        </div>
+
+        <div class="absolute z-20 w-2 h-2 bg-blue-100 rounded-full shadow-[0_0_20px_5px_rgba(255,255,255,0.6)]"></div>
+
+        <!-- Content Box -->
+        <div class="absolute top-12 right-8 md:top-20 md:right-12 z-20 text-right max-w-xs">
+          <p class="text-white text-sm md:text-base font-body-serif leading-relaxed tracking-wide p-4 border-r-2 border-white/40 pr-6 bg-black/20 backdrop-blur-md shadow-xl rounded-l-sm">
+            Recording my thoughts on AI and financial market trends since I
+            first came to the US for university 3 months ago.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Infinite Marquee -->
+    <div class="py-4 bg-black/80 backdrop-blur-md border-y border-white/20 overflow-hidden select-none pointer-events-none">
+      <div class="marquee-track text-lg font-mono text-white/50 whitespace-nowrap">
+        <span>MARKET TRENDS</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>GPU SHORTAGE</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>MODEL COLLAPSE?</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>OPENAI VS GOOGLE</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>CAPEX SPENDING</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>NVDA EARNINGS</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>MARKET TRENDS</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>GPU SHORTAGE</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>MODEL COLLAPSE?</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>OPENAI VS GOOGLE</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>CAPEX SPENDING</span>
+        <span class="text-blue-600 px-4">•</span>
+        <span>NVDA EARNINGS</span>
+      </div>
+    </div>
+
+    <!-- Section I: Analysis -->
+    <section class="max-w-7xl mr-auto ml-auto pt-24 pr-6 pb-24 pl-6 relative" id="analysis">
+      <div class="group flex flex-col md:flex-row border-b border-white/20 mb-12 pb-6 items-end justify-between hover-trigger cursor-default">
+        <div>
+          <p class="text-neutral-500 font-mono text-xs tracking-widest mb-3 uppercase group-hover:text-blue-400 transition-colors">
+            Part I
+          </p>
+          <h2 class="text-4xl md:text-5xl font-serif font-semibold text-white tracking-tight group-hover:text-blue-600 transition-colors duration-500">
+            AI Market Analysis
+          </h2>
+        </div>
+        <p class="text-neutral-500 font-body-serif max-w-lg mt-4 md:mt-0 text-right text-sm md:text-base leading-relaxed group-hover:text-white transition-colors duration-500">
+          Reflections on AI-related financial market trends, analyzing upstream,
+          midstream, and downstream infrastructure.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+        <!-- Card 1 - white01_.html -->
+        <a href="white01_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+          <div class="aspect-[3/2] overflow-hidden bg-neutral-100 mb-5 relative border border-neutral-100">
+            <img src="https://i.postimg.cc/4dXSdDMg/18171765176367-pic-hd.png?w=800&amp;q=80" class="w-full h-full object-cover" alt="Bubble Watch" style="">
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+              <span class="font-bold text-neutral-900">Bubble Watch</span>
+              <span>Feb, 2025</span>
+            </div>
+            <h3 class="text-2xl font-serif tracking-tight leading-tight">
+              IS AI BUBBLE? WHAT? WHY? HOW?
+            </h3>
+            <p class="text-neutral-600 font-body-serif text-sm leading-7">
+              Historical parallels between the Dot-com boom and the current
+              generative AI cycle.
+            </p>
+          </div>
+        </a>
+
+        <!-- Card 2 - white02_.html -->
+        <a href="white02_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+          <div class="aspect-[3/2] overflow-hidden bg-neutral-100 mb-5 relative border border-neutral-100">
+            <img src="https://i.postimg.cc/9FkKpN4D/18101765176098-pic.jpg?w=800&amp;q=80" class="w-full h-full object-cover" alt="GPU Hardware">
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+              <span class="font-bold text-neutral-900">Hardware</span>
+              <span>Sep, 2025</span>
+            </div>
+            <h3 class="text-2xl font-serif tracking-tight leading-tight">
+              2025 Year-to-Date Stock Performance Ranking
+            </h3>
+            <p class="text-neutral-600 font-body-serif text-sm leading-7">
+              A comprehensive ranking and analysis of major AI stock
+              performances throughout 2025.
+            </p>
+          </div>
+        </a>
+
+        <!-- Card 3 - white03_.html -->
+        <a href="white03_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+          <div class="aspect-[3/2] overflow-hidden bg-neutral-100 mb-5 relative border border-neutral-100">
+            <img src="https://i.postimg.cc/hGTkhbtg/18071765176048-pic.jpg?w=800&amp;q=80" class="w-full h-full object-cover" loading="lazy" alt="Infrastructure">
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+              <span class="font-bold text-neutral-900">Infrastructure</span>
+              <span>Oct, 2025</span>
+            </div>
+            <h3 class="text-2xl font-serif tracking-tight leading-tight">
+              AS TEEN,HOW I GAIN AI MARKET SENSE?
+            </h3>
+            <p class="text-neutral-600 font-body-serif text-sm leading-7">
+              My personal journey and framework for understanding the complex AI
+              market dynamics as a teenager.
+            </p>
+          </div>
+        </a>
+
+        <!-- Card 4 - white04_.html -->
+        <a href="white04_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+          <div class="aspect-[3/2] overflow-hidden bg-neutral-100 mb-5 relative border border-neutral-100">
+            <img src="https://i.postimg.cc/DfjMvYPc/18381765176884-pic.jpg?w=800&amp;q=80" class="w-full h-full object-cover" loading="lazy" alt="Downstream">
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+              <span class="font-bold text-neutral-900">Downstream</span>
+              <span>Nov, 2025</span>
+            </div>
+            <h3 class="text-2xl font-serif tracking-tight leading-tight">
+              AAPL &amp; GOOG IN AI?
+            </h3>
+            <p class="text-neutral-600 font-body-serif text-sm leading-7">
+              Evaluating the competitive positioning and hidden AI strategies of
+              Apple and Google.
+            </p>
+          </div>
+        </a>
+
+        <!-- Card 5 - white05_.html -->
+        <a href="white05_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+          <div class="aspect-[3/2] overflow-hidden bg-neutral-100 mb-5 relative border border-neutral-100">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=2560&amp;q=80" class="w-full h-full object-cover" loading="lazy" alt="Energy">
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+              <span class="font-bold text-neutral-900">Energy</span>
+              <span>Nov, 2025</span>
+            </div>
+            <h3 class="text-2xl font-serif tracking-tight leading-tight">
+              Kimi-k2, another DeepSeek moment?
+            </h3>
+            <p class="text-neutral-600 font-body-serif text-sm leading-7">
+              Analyzing the Kimi-k2 release: Is this another pivotal
+              DeepSeek-like moment for the industry?
+            </p>
+          </div>
+        </a>
+
+        <!-- Card 6 - white06_.html -->
+        <a href="white06_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+          <div class="aspect-[3/2] overflow-hidden bg-neutral-100 mb-5 relative border border-neutral-100">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover" loading="lazy" alt="Silicon">
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+              <span class="font-bold text-neutral-900">Semiconductors</span>
+              <span>Nov, 2025</span>
+            </div>
+            <h3 class="text-2xl font-serif tracking-tight leading-tight">
+              Why Microsoft intentionally slow down in the computing-power race?
+            </h3>
+            <p class="text-neutral-600 font-body-serif text-sm leading-7">
+              Investigating the strategic reasons behind Microsoft's deliberate
+              deceleration in computing infrastructure expansion.
+            </p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section II: Insights -->
+    <section class="bg-black border-white/20 border-t pt-24 pb-24 relative" id="insights">
+      <div class="max-w-7xl mr-auto ml-auto pr-6 pl-6">
+        <div class="group flex flex-col md:flex-row hover-trigger cursor-default border-white/20 border-b mb-12 pb-6 items-end justify-between">
+          <div class="">
+            <p class="uppercase group-hover:text-blue-400 transition-colors text-xs text-neutral-500 tracking-widest font-mono mb-3">
+              Part II
+            </p>
+            <h2 class="md:text-5xl group-hover:text-blue-600 transition-colors duration-500 text-4xl font-semibold text-white tracking-tight font-serif">
+              Curated Cited Insights
+            </h2>
+          </div>
+          <p class="text-neutral-500 font-body-serif max-w-lg mt-4 md:mt-0 text-right text-sm md:text-base leading-relaxed group-hover:text-white transition-colors duration-500">
+            Key excerpts and signals matching the analytical rigor of the market
+            analysis.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+          <!-- Card 1 - white07_.html -->
+          <a href="white07_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+            <div class="aspect-video overflow-hidden bg-neutral-100 mb-4 relative border border-neutral-100">
+              <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover" loading="lazy" alt="Morgan Stanley">
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+                <span>Summary</span>
+              </div>
+              <h3 class="text-xl font-serif font-medium leading-snug">
+                GPU vs TPU?
+              </h3>
+              <p class="text-neutral-600 font-body-serif text-sm leading-relaxed">
+                Insights on Google TPUs from a SemiAnalysis Podcast (9 Months
+                Ago)
+              </p>
+            </div>
+          </a>
+
+          <!-- Card 2 - white08_.html -->
+          <a href="white08_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+            <div class="aspect-video overflow-hidden bg-neutral-100 mb-4 relative border border-neutral-100">
+              <img src="https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=1600&amp;q=80" class="w-full h-full object-cover" loading="lazy" alt="Sequoia">
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+                <span>Excerpt</span>
+              </div>
+              <h3 class="text-xl font-serif font-medium leading-snug">
+                Novo Nordisk?
+              </h3>
+              <p class="text-neutral-600 font-body-serif text-sm leading-relaxed">
+                Background on the Failure of Novo Nordisk's Alzheimer's Clinical
+                Trial
+              </p>
+            </div>
+          </a>
+
+          <!-- Card 3 - white09_.html -->
+          <a href="white09_.html" class="bg-white p-6 group hover-trigger fade-up block" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+            <div class="aspect-video overflow-hidden bg-neutral-100 mb-4 relative border border-neutral-100">
+              <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1600&amp;q=80" class="w-full h-full object-cover" loading="lazy" alt="Goldman Sachs">
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between text-[10px] font-sans text-neutral-500 uppercase tracking-widest border-b border-neutral-200 pb-2">
+                <span>Data</span>
+              </div>
+              <h3 class="leading-snug text-xl font-medium font-serif">
+                GPU Depreciation?
+              </h3>
+              <p class="text-neutral-600 font-body-serif text-sm leading-relaxed">
+                The Economic Case for Extended GPU Lifespan
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="flex w-full mt-12 justify-center">
+          <button class="text-neutral-500 hover:text-white transition-colors text-xs font-sans font-bold tracking-widest flex items-center gap-2 hover-trigger uppercase border-b border-transparent hover:border-white pb-1">
+            <span class="">Show More Entries</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="plus" class="lucide lucide-plus w-4 h-4 stroke-[1.5]">
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="z-10 text-center bg-black border-white/20 border-t pt-16 pb-12 relative">
+      <div class="flex flex-col max-w-7xl mr-auto ml-auto pr-6 pl-6 items-center">
+        <p class="font-serif italic text-3xl mb-8 hover-trigger text-white cursor-default">
+          Connor Pu
+        </p>
+        <div class="flex flex-col md:flex-row gap-12 mb-10 justify-center items-center w-full">
+          <!-- YouTube -->
+          <div class="flex flex-col items-center gap-3">
+            <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="text-white hover:text-blue-500 transition-colors group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-youtube w-8 h-8 group-hover:scale-110 transition-transform">
+                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+                <path d="m10 15 5-3-5-3z"></path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@X_tra.AI0001/videos" target="_blank" class="text-white text-xs font-sans tracking-wider hover:text-blue-500 transition-colors border-b border-transparent hover:border-blue-500 pb-0.5">
+              https://www.youtube.com/@X_tra.AI0001/videos
+            </a>
+          </div>
+
+          <!-- X (Updated Icon) -->
+          <div class="flex flex-col items-center gap-3">
+            <a href="https://x.com/alpha765166467" target="_blank" class="text-white hover:text-blue-500 transition-colors group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 group-hover:scale-110 transition-transform">
+                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path>
+              </svg>
+            </a>
+            <a href="https://x.com/alpha765166467" target="_blank" class="text-white text-xs font-sans tracking-wider hover:text-blue-500 transition-colors border-b border-transparent hover:border-blue-500 pb-0.5">
+              https://x.com/alpha765166467
+            </a>
+          </div>
+        </div>
+        <p class="leading-relaxed text-sm text-neutral-500 font-body-serif max-w-lg mb-8">
+          Documenting the intersection of artificial intelligence and capital
+          markets.
+        </p>
+
+        <p class="text-xs font-sans tracking-widest text-neutral-700 uppercase">
+          © 2025 Connor Pu. All Rights Reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      lucide.createIcons();
+      gsap.registerPlugin(ScrollTrigger);
+      const fadeElements=document.querySelectorAll('.fade-up');
+      fadeElements.forEach(el=>{
+        gsap.to(el,{
+          scrollTrigger:{
+            trigger:el,
+            start:"top 85%",
+            toggleActions:"play none none reverse"
+          },
+          y:0,
+          opacity:1,
+          duration:0.8,
+          ease:"power2.out"
+        })
+      });
+      gsap.from(".hero-q",{
+        y:20,
+        opacity:0,
+        duration:0.8,
+        stagger:0.1,
+        ease:"power2.out",
+        delay:0.2,
+        clearProps:"transform"
+      });
+      
+      // Custom Cursor Effect (Optimized)
+      if (window.matchMedia('(hover: hover)').matches && window.gsap) {
+        const cursor = document.querySelector('.cursor-dot');
+        const hoverSelectors = 'a, button, .group, [role="button"], .hoverable, .hover-trigger, img';
+
+        if (cursor) {
+          gsap.set(cursor, {xPercent: -50, yPercent: -50});
+
+          let mouseX = 0, mouseY = 0;
+          let rafId = null;
+          
+          const updateCursor = () => {
+            gsap.to(cursor, { x: mouseX, y: mouseY, duration: 0.2, ease: 'power2.out', overwrite: true });
+            rafId = null;
+          };
+
+          document.addEventListener('mousemove', (e) => { 
+            mouseX = e.clientX; 
+            mouseY = e.clientY;
+            if (!rafId) {
+              rafId = requestAnimationFrame(updateCursor);
+            }
+          }, {passive: true});
+
+          document.querySelectorAll(hoverSelectors).forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'), {passive: true});
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'), {passive: true});
+          });
+        }
+      }
+    </script>
+  
+</body></html>
